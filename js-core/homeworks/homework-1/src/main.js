@@ -1,14 +1,15 @@
-let name = 'Oleksandr',
-	lastname = 'Polischuk',
-	avatar = true,
-	age = 21,
-	phoneNumbers = {
+let name = 'Oleksandr';
+let	lastname = 'Polischuk';
+let avatar = true;
+let age = 21;
+let phoneNumbers = {
 		kyivstar: 12345678,
 		mts: 8765432
-	},
-	telegram = +'four seven seven six zero',
-	viber = null,		//тут хотелось бы не напрямую его задать
-	skype;
+	}
+let	telegram = +'four seven seven six zero';
+let viber = null;
+let skype;
+let friends = Infinity;
 
 let user = {
 	name: name,
@@ -18,7 +19,8 @@ let user = {
 	phoneNumbers: phoneNumbers,
 	skype: skype,
 	telegram: telegram,
-	viber: viber
+	viber: viber,
+	friends: friends
 };
 
 console.log(user);
