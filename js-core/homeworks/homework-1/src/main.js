@@ -5,8 +5,8 @@ let age = 21;
 let phoneNumbers = {
 		kyivstar: 12345678,
 		mts: 8765432
-	}
-let	telegram = +'four seven seven six zero';
+	};
+let telegram = +'four seven seven six zero';
 let viber = null;
 let skype;
 let friends = Infinity;
