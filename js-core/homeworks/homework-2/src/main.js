@@ -66,5 +66,10 @@ But real speed is ' +
 
 //console.log(x);
 
-let y = `google released new version ${frameworks[1]}${Math.floor(frameworks[0])} But real speed is ${frameworks[frameworks.length - 1]}`;
+let helper1 = Math.floor(frameworks[0]);
+let helper2 = frameworks[frameworks.length - 1];
+
+//console.log(helper1, helper2);
+
+let y = `google released new version ${frameworks[1]} ${helper1} But real speed is ${helper2}`;
 console.log('task5', y);
