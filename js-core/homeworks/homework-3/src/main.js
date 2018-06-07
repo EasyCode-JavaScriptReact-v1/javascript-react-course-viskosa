@@ -239,7 +239,7 @@ function super2(arg1, arg2, arg3, callback) {
 }
 
 let cb = function(someArgs){
-	console.log(someArgs);
+	console.log('task SUPER 2', someArgs);
 }
 
 super2(1, 2, 3, cb);
