@@ -152,25 +152,28 @@ fizzBuzz1(21); // 'Fizz'
 function fizzBuzz2(num) {
 
 	let answers = ['Fizz', 'Buzz'];
+	let res;
 
 	if (num % 3 == 0 && num % 5 == 0) {
-		console.log(answers[0]+answers[1]);
+		res = answers[0]+answers[1];
 	} else if (num % 3 == 0) {
-		console.log(answers[0]);
+		res = answers[0];
 	} else if (num % 5 == 0) {
-		console.log(answers[1]);
+		res = answers[1];
 	} else {
-		console.log(num);
+		res = num;
 	}
+
+	return res;
 }
 
-fizzBuzz2(1); // 1
-fizzBuzz2(2); // 2
-fizzBuzz2(3); // 'Fizz'
-fizzBuzz2(5); // 'Buzz'
+console.log('------------->',fizzBuzz2(1)); // 1
+console.log('------------->',fizzBuzz2(2)); // 2
+console.log('------------->',fizzBuzz2(3)); // 'Fizz'
+console.log('------------->',fizzBuzz2(5)); // 'Buzz'
 // ...
-fizzBuzz2(15); // 'FizzBuzz'
-fizzBuzz2(21); // 'Fizz'
+console.log('------------->',fizzBuzz2(15)); // 'FizzBuzz'
+console.log('------------->',fizzBuzz2(21)); // 'Fizz'
 
 //the third solution----------------------------------
 function fizzBuzz3(num) {
