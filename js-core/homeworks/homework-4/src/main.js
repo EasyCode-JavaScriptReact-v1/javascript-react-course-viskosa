@@ -68,7 +68,7 @@ console.log('task 2-3 ---->', numbersBetween(4, 15));// 4,5,6,7,8,9,10,11,12,13,
 
 function FizzBuzz(num) {
 	let res = '';
-	if (num % 3 == 0) {
+	/*if (num % 3 == 0) {
 		res += 'Fizz';
 	};
 	if (num % 5 == 0) {
@@ -77,6 +77,10 @@ function FizzBuzz(num) {
 	if (res.length == 0){
 		return num;
 	}
+	return res;*/
+	res += (num % 3 == 0) ? 'Fizz' : '';
+	res += (num % 5 == 0) ? 'Buzz' : '';
+	res += (res.length == 0) ? num : '';
 	return res;
 }
 
@@ -120,26 +124,32 @@ console.log('task 4 ---->', showTypes(array))
   содержащий все объекты содержащие свойство unknownAge: true
  */
 
-//let array = Array.from({length: 35},
-//  (value, index) => (index % 2 ? {age: index + 2} : {age: NaN}),
-//);
+let arr = Array.from({length: 35},
+  (value, index) => (index % 2 ? {age: index + 2} : {age: NaN}),
+);
 
 function lookInObject(obj){
-	for (let key in obj) {
+	let objKey = obj.age;
+	if (isNaN(objKey)) {
+		obj.unknownAge = true;
+	}
+		return obj;
+/*	for (let key in obj) {
 		if (key == 'age' && isNaN(obj[key])) {
 			obj.unknownAge = true;
 		}
 
 		return obj;
-	}
+	}*/
 }
 
 function makeResultArray(arr) {
 	let resultArray = [];
 	for (let i = 0; i < arr.length; i++) {
-		for (let key in arr[i]) {
+		let obj = arr[i];
+		for (let key in obj) {
 			if (key == 'unknownAge') {
-				resultArray[resultArray.length] = arr[i];
+				resultArray[resultArray.length] = obj;
 			}
 		}
 	}
@@ -151,7 +161,7 @@ function solution(arr) {
 	let newArr = [];
 
 	for (let i = 0; i < arr.length; i++) {
-		if (typeof arr[i] != 'object') continue;
+		//f (typeof arr[i] != 'object') continue;
 
 		let newElem = lookInObject(arr[i]);
 		newArr[newArr.length] = newElem;
@@ -161,7 +171,7 @@ function solution(arr) {
 }
 
 
-let arr = [
+/*let arr = [
 	{
 		age: '25',
 		job: 'student'
@@ -179,6 +189,6 @@ let arr = [
 		age: NaN,
 		job: 'student'
 	},
-];
+];*/
 
 console.log(solution(arr));
