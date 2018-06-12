@@ -68,20 +68,14 @@ console.log('task 2-3 ---->', numbersBetween(4, 15));// 4,5,6,7,8,9,10,11,12,13,
 
 function FizzBuzz(num) {
 	let res = '';
-	/*if (num % 3 == 0) {
+	if (num % 3 == 0) {
 		res += 'Fizz';
 	};
 	if (num % 5 == 0) {
 		res += 'Buzz';
 	};
-	if (res.length == 0){
-		return num;
-	}
-	return res;*/
-	res += (num % 3 == 0) ? 'Fizz' : '';
-	res += (num % 5 == 0) ? 'Buzz' : '';
-	res += (res.length == 0) ? num : '';
-	return res;
+
+	return res.length == 0 ? num : res;
 }
 
 function FizzBuzz100() {
