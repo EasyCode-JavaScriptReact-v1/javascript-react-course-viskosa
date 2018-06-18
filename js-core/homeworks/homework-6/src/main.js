@@ -90,12 +90,29 @@ console.log('task 3-3 ---->', reverseEachWord2('Hi my Name is', false));
 
 // Both - Java - and - Java - Script - is - programming - and - programming - OOPBased
 function wordCounter(sentence) {
+	let arr = sentence.split(' ');
+	let obj = arr.reduce((newItem, item) => {
+		let head = item;
+		let counter = 0;
 
+		arr.forEach((item) => {
+			if (head === item) {
+				counter++;
+			}
+		});
+
+		newItem[head] = counter;
+		return newItem;
+
+	}, {});
+
+	return obj;
 }
 
 console.log('task 4-1 ---->', 
   wordCounter('Both Java and Java Script is programming and programming OOPBased Language'),
 );
+
 /*
  {
  Both:1,
@@ -125,3 +142,151 @@ console.log('task 4-3 ---->', wordCounter('url http url www url http'));
  www:1
  }
  * */
+
+
+ /*
+  TASK 4
+ // Функция принимает массив у которого есть свойста _id и Company.
+ // верните объект, у которого ключ это _id, а значение Company
+ */
+let listOfCompanys = [
+  {
+    company: 'ASIMILINE',
+    name: {
+      last: 'Watkins',
+      first: 'Lindsay',
+    },
+    eyeColor: 'brown',
+    age: 20,
+    picture: 'http://placehold.it/32x32',
+    balance: '$1,091.09',
+    isActive: true,
+    guid: '294814e3-4c89-428f-b0c9-da5c4c37ea5e',
+    index: 0,
+    _id: '584babb6eeb4137cf14c37a3',
+  },
+  {
+    company: 'ENJOLA',
+    name: {
+      last: 'Price',
+      first: 'Greene',
+    },
+    eyeColor: 'brown',
+    age: 39,
+    picture: 'http://placehold.it/32x32',
+    balance: '$3,533.55',
+    isActive: true,
+    guid: 'e7b0824f-d6d1-4a82-b2c5-cd7a1ec8310c',
+    index: 1,
+    _id: '584babb6c7be9c2398ed263f',
+  },
+  {
+    company: 'ZINCA',
+    name: {
+      last: 'Robertson',
+      first: 'Barbara',
+    },
+    eyeColor: 'brown',
+    age: 22,
+    picture: 'http://placehold.it/32x32',
+    balance: '$1,395.22',
+    isActive: false,
+    guid: '0735d8d9-a165-4ad1-893f-e821da37bf63',
+    index: 2,
+    _id: '584babb6cca4dbefa6001820',
+  },
+  {
+    company: 'TALKOLA',
+    name: {
+      last: 'Cooke',
+      first: 'Lea',
+    },
+    eyeColor: 'blue',
+    age: 31,
+    picture: 'http://placehold.it/32x32',
+    balance: '$3,074.16',
+    isActive: false,
+    guid: '7d13cbc4-6b4d-4954-b3d3-df3cfe5f2373',
+    index: 3,
+    _id: '584babb6391a2b568f1e9416',
+  },
+  {
+    company: 'GEEKKO',
+    name: {
+      last: 'Webb',
+      first: 'Kline',
+    },
+    eyeColor: 'blue',
+    age: 34,
+    picture: 'http://placehold.it/32x32',
+    balance: '$1,520.21',
+    isActive: false,
+    guid: '2b179de0-a659-4423-b3c4-11c6490e5c74',
+    index: 4,
+    _id: '584babb66d6ea73e8ed51208',
+  },
+];
+
+ // Функция принимает массив у которого есть свойста _id и Company.
+ // верните объект, у которого ключ это _id, а значение Company
+
+function createHashTags(arr) {
+	let obj = arr.reduce((newItem, item) => {
+		let id = item._id;
+		let value = item.company
+		newItem[id] = value;
+		return newItem;
+	}, {})
+
+	return obj;
+}
+
+console.log('task 5-1 ---->', createHashTags(listOfCompanys));
+//{"584babb6eeb4137cf14c37a3":"ASIMILINE", '584babb6eeb4137cf14c37a3':'Company2', }
+
+// @ SUPER
+/*
+ *
+ * TASK 1
+ * Выведите уникальные значения
+ *
+ * */
+
+function uniqueElements(arr) {
+    let obj = arr.reduce((newItem, item) => {
+    	let str = item;
+        newItem[str] = true;
+        return newItem;
+    }, {});
+
+    return Object.keys(obj);
+}
+
+//
+let notUniqArray = [1, 1, 2, 2, 2, 5, 10, 25, 30, 5, 1, 0, 22, 3, 10, 3];
+//
+console.log('task super 1-1 ---->',uniqueElements(notUniqArray)); //1,2,5,10,25,30,0,22,3,
+console.log('task super 1-2 ---->',uniqueElements([1, 1, 2, 3, 3])); // 1,2,3
+
+/*
+*
+* super2
+*
+* implement array method filter function
+*/
+let array = [1, 10, 0, 'qwerty', null, undefined, [], {}, '', false, true, NaN, -20, ' '];
+
+function filterArr(arr){
+	let result = [];
+
+	for (let i = 0; i < arr.length; i++) {
+		let item = arr[i];
+		if (item === NaN || item === 0 || item === undefined || item === false || item === null || item === '' ) {
+			continue;
+		}
+		result.push(item);
+	}
+	return result;
+};
+
+console.log(filterArr(array));//[1, 10, "qwerty", Array(0), {…}, true, NaN, -20, " "]
