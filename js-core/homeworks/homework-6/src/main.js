@@ -13,7 +13,7 @@ let javaScript = {
   html: 'JavaScript',
 };
 
-function countLetterA(str) {
+/*function countLetterA(str) {
 	let counter = 0;
 	let arr = str.toLowerCase().split('');
 	console.log(arr);
@@ -24,6 +24,18 @@ function countLetterA(str) {
 	})
 
 	return counter;
+}*/
+
+function countLetterA(str) {
+  let arr = str.toLowerCase().split('');
+  let counter = arr.reduce((newItem, item) => {
+    if (item == 'a') {
+      newItem++;
+    };
+    return newItem;
+  }, 0);
+
+return counter;
 }
 
 console.log('task 1-1 ---->', countLetterA(randomString)); // 4
@@ -62,12 +74,12 @@ console.log('task 2-2 ---->', reverseEachWord('The Document Object Model (DOM) i
  * данный параметр булево, если true - тогда предложение так же
  * переворачиваются в обратном порядке
  * */
-function reverseEachWord2(str, boolean) {
+function reverseEachWord2(str, shouldSentenceBeReversed) {
 	let strArr = str.split(' ');
 	let word = strArr.map((item) => {
 		return item.split('').reverse().join('');
 	})
-	if (boolean) {
+	if (shouldSentenceBeReversed) {
 		return word.reverse().join(' ');
 	}
 		return word.join(' ');
@@ -92,16 +104,16 @@ console.log('task 3-3 ---->', reverseEachWord2('Hi my Name is', false));
 function wordCounter(sentence) {
 	let arr = sentence.split(' ');
 	let obj = arr.reduce((newItem, item) => {
-		let head = item;
+		let sentenceItem = item;
 		let counter = 0;
 
 		arr.forEach((item) => {
-			if (head === item) {
+			if (sentenceItem === item) {
 				counter++;
 			}
 		});
 
-		newItem[head] = counter;
+		newItem[sentenceItem] = counter;
 		return newItem;
 
 	}, {});
@@ -262,21 +274,54 @@ function uniqueElements(arr) {
     return Object.keys(obj);
 }
 
+/*function uniqueElements2(arr) {
+  let fillteredArr = arr.filter((item, i) => {
+
+    let item = true;
+
+  })
+  return fillteredArr;
+}*/
+
 //
 let notUniqArray = [1, 1, 2, 2, 2, 5, 10, 25, 30, 5, 1, 0, 22, 3, 10, 3];
 //
 console.log('task super 1-1 ---->',uniqueElements(notUniqArray)); //1,2,5,10,25,30,0,22,3,
 console.log('task super 1-2 ---->',uniqueElements([1, 1, 2, 3, 3])); // 1,2,3
-
+//console.log('task super 1-3 ---->',uniqueElements2(notUniqArray)); //1,2,5,10,25,30,0,22,3,
+//console.log('task super 1-4 ---->',uniqueElements2([1, 1, 2, 3, 3])); // 1,2,3
 /*
 *
 * super2
 *
 * implement array method filter function
+So you have to create reusable filter function, which can be applied to an array, 
+and callback function makes a decision to leave that variable inside an array or not
 */
+
+function filter(array, callback) {
+  let result = [];
+  for (let i = 0; i < array.length; i++){
+    let item = array[i];
+    let decision = callback(item);
+    if (decision) {
+      result.push(decision);
+    };
+  }
+  return result;
+};
+
+function makeDecision(item) {
+  if (item) {
+    return item;
+  }
+  return false;
+};
+
+
 let array = [1, 10, 0, 'qwerty', null, undefined, [], {}, '', false, true, NaN, -20, ' '];
 
-function filterArr(arr){
+/*function filterArr(arr){
 	let result = [];
 
 	for (let i = 0; i < arr.length; i++) {
@@ -287,6 +332,7 @@ function filterArr(arr){
 		result.push(item);
 	}
 	return result;
-};
+};*/
 
-console.log(filterArr(array));//[1, 10, "qwerty", Array(0), {…}, true, NaN, -20, " "]
+//console.log(filterArr(array));//[1, 10, "qwerty", Array(0), {…}, true, NaN, -20, " "]
+console.log(filter(array, makeDecision));//[1, 10, "qwerty", Array(0), {…}, true, -20, " "]
