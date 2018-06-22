@@ -71,7 +71,7 @@ console.log('task 2 ----> ', test.method()); //5
  *
  * Напишите функцию которая принимает 4 аргумента:
  *
- * -  Объект
+ * -  Объект/////
  * -  Имя свойства с которым связывается метод
  * -  Сколько раз можно вызвать метод *
  * -  Объявление привязываемого метода ( функция )
@@ -84,68 +84,47 @@ console.log('task 2 ----> ', test.method()); //5
 
 let jun = {};
 
+
 function methodCounter(obj, name, num, fn) {
 	let newObj = obj;
 
-	newObj[name] = fn;//jun.logger = function()
-	newObj.count = num;//jun.count = 2
-	newObj.countFunc = function(){
-							let counter = num;
-							const myCounter = function(){
-								return counter--;
-							}
-							return myCounter;
-						};
-	return newObj;
-}
+	newObj.amount = num;
+	newObj[name] = fn;
 
-//console.log(methodCounter(jun, 'logger', 2, sumFunc));
+	console.log(newObj);
+};
 
-let resutlObject = methodCounter(jun, 'logger', 2, function sumFunc(args) {
+methodCounter(jun, 'logger', 3, adding);
+
+/*methodCounter(jun, 'logger', 2, function (args) {});*/
+
+let count = jun.amount;
+const closure = function makeClosure(){
+		return count--;
+	}
+
+const counter = closure;
+
+//console.log(counter());
+
+function adding(args){
 	let arr = [...arguments];
 
-/*	const countFunc = function(){
-			let counter = jun.count;
-			const myCounter = function(){
-				return counter--;
-			}
-				return myCounter;
-		};*/
-
-	//const closure = countFunc();
-
-	const closure = jun.countFunc();
-	let closureValue = closure();
-
-	if (closureValue) {
-	//console.log('1 --->', closureValue);
+	if (counter() > 0) {
 		let sum = arr.reduce((newItem, item) => {
-			return newItem + item;
-
-		}, 0);
-
-			return `${closureValue}, ${sum}`;
-	} 
+      			return newItem + item;
+    		}, 0);
+      		return sum;
+		} 
 		return `ERROR ! add more methods`;
+	}
 
-		closureValue = closure();// думаю, что тут поменяется значение счетчика, но как-то нет
-		console.log(closureValue);
-});
 
-console.log(resutlObject);
-/*
-function sumFunc(args){
-	let arr = [...arguments];
-
-	//if ()
-	let sum = arr.reduce((newItem, item) => {
-		return newItem + item;
-	}, 0);
-	return sum;
-}*/
 
 console.log('task 3-1 ----> ',jun.logger(1, 2, 3, 4)); // 2, 10
 console.log('task 3-2 ----> ',jun.logger(5, 5, 5, 5)); // 1, 20
-console.log('task 3-3 ----> ',jun.logger(5, 5)); // ERROR ! add more methods
+console.log('task 3-3 ----> ',jun.logger(1, 2, 3, 4, 7, 10)); // 2, 27
+console.log('task 3-4 ----> ',jun.logger(5, 5, 5, 5)); // 1, 20
+console.log('task 3-5 ----> ',jun.logger(5, 5)); // ERROR ! add more methods
 
-//jun.addCounter(10, methodName);
+//jun2.addCounter(10, methodName);

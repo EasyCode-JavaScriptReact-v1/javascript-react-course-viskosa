@@ -83,22 +83,68 @@ console.log(myCounter.add())//1
 console.log(myCounter.add())//2
 console.log(myCounter.add())//3
 
-//--------------------------------------усложнение
-function qqq1(x){
-  let counter = x;
-  return obj = {
-      add : function() {
-        return {
-          prevState: counter,
-          state: ++counter
-        };
-    }
-  }
+//-------------------------------------решение Олега:
+//1. Создаем функцию, котрая возвращает объект:
+//2. Чтобы приравянть свойство объекта функции - создаем функцию
+//3. При вызове этого свойства отобразите 1, потом 2, потом 3 - делаем обычный счетчик через замыкание
+//4. Присваеваем перевенной результат вызова ф-ции createCounter, т.е. вернет объект obj
+//5. Обращаемся к методу объекта add, который у нас по сути замыкание
+function createCounter(){           //1 шаг
+  let obj = {};       //1 шаг
+  let counter = 0;    //3 шаг
 
+  function add(){     //2 шаг
+    return counter++; //3 шаг
+  };
+
+  obj.add = add;      //2 шаг
+  return obj;         //1 шаг
 }
 
-const myCounter2 = qqq1(10);
+const myCounter1 = createCounter(); //4 шаг
+console.log(myCounter1.add());      //5 шаг
+console.log(myCounter1.add());      //5 шаг
+console.log(myCounter1.add());      //5 шаг
+console.log(myCounter1.add());      //5 шаг
 
-console.log(myCounter2.add())//1
-console.log(myCounter2.add())//2
-console.log(myCounter2.add())//3
+//--------------------------------------усложнение
+//6.При создании счетчика укажите изначальное состояние счетчика 
+//7. Храните предыдущее состояние счетчика.
+//7.Получить это состояние можно, добавив еще одно свойство в объект
+//7/которое равняется функции - lastState()
+//--------------------------------------------------решение Олега
+function createCounter2(initialState){    //1 шаг //6шаг - передаем initialState
+  let obj = {};       //1 шаг
+  let counter = initialState || 0;    //3 шаг //6 шаг приравниваем counter к initialState или 0
+  let counterPreviousState = counter; //7 шаг
+
+  function add(){                     //2 шаг
+    counterPreviousState = counter;  //7 шаг
+    return counter++;                 //3 шаг
+  };
+
+  function add10(){
+    counterPreviousState = counter;
+    return counter = counter + 10; //8 шаг "а если..."
+  }
+
+  function lastState(){            //7 шаг - добавляем функцию lastState, которую потом сделаем методом объекта
+    return counterPreviousState;   //7 шаг
+  };
+
+  obj.add = add;                //2 шаг
+  obj.lastState = lastState;    //7 шаг
+  obj.add10 = add10;            //8 шаг "а если..."
+  return obj;                   //1 шаг
+}
+
+const myCounter2 = createCounter2(50); //4 шаг //6 шаг  - если здесь в createCounter 
+                                    //передать число - все ок, а если не передавать - будет много NaN
+                                    //чтобы этого избежать, добавляем в 118 строке "или равно 0"
+
+console.log(myCounter2.add())       //2.add());      //5 шаг
+console.log(myCounter2.add());      //5 шаг
+console.log(myCounter2.add10());      //5 шаг
+console.log(myCounter2.lastState());      //5 шаг
+
+
