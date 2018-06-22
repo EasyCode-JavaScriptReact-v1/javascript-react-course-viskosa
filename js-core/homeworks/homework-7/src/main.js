@@ -109,18 +109,23 @@ const counter = closure;
 
 function adding(args){
 	let arr = [...arguments];
-
-	if (counter() > 0) {
+	let qqq = counter();
+	if (qqq > 0) {
 		let sum = arr.reduce((newItem, item) => {
       			return newItem + item;
     		}, 0);
-      		return sum;
+      		return `${sum}, У Вас осталось ${qqq} попыток`;
 		} 
-		return `ERROR ! add more methods`;
+		return `ERROR ! add more methods, У Вас осталось ${qqq} попыток`;
 	}
 
+//должна одна и та же функция вызываться не более 3 раз, т.к. 3 передано в функцию
 
-
+console.log('task 3-1 ----> ',jun.logger(1, 2, 3, 4)); // 2, 10
+console.log('task 3-1 ----> ',jun.logger(1, 2, 3, 4)); // 2, 10
+console.log('task 3-1 ----> ',jun.logger(1, 2, 3, 4)); // 2, 10
+console.log('task 3-1 ----> ',jun.logger(1, 2, 3, 4)); // 2, 10
+console.log('task 3-1 ----> ',jun.logger(1, 2, 3, 4)); // 2, 10
 console.log('task 3-1 ----> ',jun.logger(1, 2, 3, 4)); // 2, 10
 console.log('task 3-2 ----> ',jun.logger(5, 5, 5, 5)); // 1, 20
 console.log('task 3-3 ----> ',jun.logger(1, 2, 3, 4, 7, 10)); // 2, 27
