@@ -1,12 +1,23 @@
 //closures
 
-/*function counter (){
+function counter (){
+  let myCounter = 0;
+
   const myFunction = function(){
-    return 10;
+    return myCounter++;
   }
-  return num;
+
+  return myFunction;
 }
-console.log(counter(10));*/
+
+const newCounter = counter(); //1. сюда попадает рез-т вызова функции counter. Результат ее выполнения - это return myFunction
+                              //что значит, что в newCounter вернется тело функции myFunction.
+console.log(newCounter());    //2. Теперь когда вызываем newCounter(), то по сути вызываем myFunction, которая у себя в Scope 
+                              //находит myCounter = 0 и делает return myCounter++, т.е. ноль, потом увеличивает значение 
+                              //myCounter на единицу и запоминает, что теперь у нее myCounter == 1
+console.log(newCounter());    //3. При следующем вызове newCounter() значение myCounter уже равно 1, вернет 1 и потом
+                              // увеличит значение myCounter еще на единицу
+console.log(newCounter());    //4. и так далее
 
 //-------------------------------------------------
 //создать функцию, которая вернет новую функцию
