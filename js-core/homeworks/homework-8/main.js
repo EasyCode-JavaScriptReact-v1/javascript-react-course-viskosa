@@ -223,22 +223,23 @@ console.log('task 6-3--->', filter(arr, inArray([1, 2, 10])) ); // 1,2
 
  function makeArmy() {
 
-  let shooters = [];
+  	let shooters = [];
 
-  for (let i = 0; i < 10; i++) {
+	  for (let i = 0; i < 10; i++) {
 
-    let shooter = (function() { // функция-стрелок
-    	return function(){
-    		console.log(i); // выводит свой номер
-    	}
-    })(i);
+	    let shooter = function one() { // функция-стрелок //подсмотрела, разобралась
+	    	console.log(one.num); // выводит свой номер
+	    };
+	    shooter.num = i;
 
-    shooters.push(shooter);
-  }
+	    shooters.push(shooter);
+	  }
+
   	return shooters;
 }
 
-var army = makeArmy();// сюда приходит массив функций shooters 
+var army = makeArmy();// сюда приходит массив функций shooters
+ console.log(army);
 
 army[0](); // стрелок выводит 10, а должен 0
 army[1](); // стрелок выводит 10...
