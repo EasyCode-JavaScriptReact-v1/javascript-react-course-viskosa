@@ -18,9 +18,9 @@ let z = t => { //z равно функции, которая принмает t.
   return t();
 };
 
-console.log('task 1-1---->', y);//5, берет значение глобальной переменной y
+//console.log('task 1-1---->', y);//5, берет значение глобальной переменной y
 
-console.log('task 2-1---->', z(x)); // что вернет - undefined, потому что нет никакого ретерна из t 
+//console.log('task 2-1---->', z(x)); // что вернет - undefined, потому что нет никакого ретерна из t 
 //если добавить return, то возвращается 5, т.к. функция х пришла со своем контекстом, т.е. с у=5. Круто)
 
 /*
@@ -85,18 +85,55 @@ ezjQuery
  *
  */
 
-// example
-var helloList = ezjQuery
+var ezjQuery2 = {
+
+  res: '',
+
+  add(str, inner) {
+
+    if (this.res.length != 0) {
+      this.res = (inner != undefined) ? this.res.replace('></', `><${str}>${inner}</${str}></`) : this.res.replace('></', `><${str}></${str}></`);
+      //console.log(this.res);
+      return this;
+    }
+
+    this.res += `<${str}></${str}>`;
+    //console.log(this.res);
+    return this;
+  },
+
+  render() {
+    document.write(this.res);
+    console.log(this.res);
+    //return this.res; //тут что-то одно получается - или обнулить res, или ретернуть его. И обнулить, и ретернуть непонятно как
+    this.res = '';
+  }
+
+};
+
+
+var helloList = ezjQuery2
   .add('body') // <body></body>
   .add('div') // <body><div></div></body>
   .add('ul') // <body><div><ul></ul></div></body>
   .add('li', 'Hello') //<body><div><ul><li>Hello</li></ul></div></body>
   .render();
-console.log(helloList); // <body><div><ul><li>Hello</li></ul></div></body>
+
+console.log('task 3-1---> ', helloList); // <body><div><ul><li>Hello</li></ul></div></body>
 //  Обратите внимание, что после вызова render создание строки началось сначала
 
-var bodyDiv = ezjQuery
+var bodyDiv = ezjQuery2
   .add('body') //<body></body>
   .add('div') //<body><div></div></body>
   .render();
-console.log(bodyDiv); //<body><div></div></body>
+console.log('task 3-2---> ', bodyDiv); //<body><div></div></body>
+
+
+// @SUPER
+/*
+ * Переименуйте объект ezjQuery в $.
+ * Создание перевого метода должено быть без метода
+ */
+
+
+ // $('body').add('li', 'hi').render() // <body><li>hi</li></body>
