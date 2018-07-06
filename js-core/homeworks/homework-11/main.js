@@ -1,61 +1,71 @@
 'use strict';
 
-//TASK FROM PREVIOUS HOMEWORK----------------------------------
-/** Создайте объект к которому можно будет применить любое число вызовов
-  // obj.method().method().method()
-  ---------------
- *  Передаваемое значение должно возвращаться в виде html тэгов (TASK 1)
- *  Передаваемые аргументы должны быть только в виде строки
----------------------------------------------------------------------------------------
- * Доработйте метод add чтобы на каждом вызове следующий
- * тэг помещался внутри предыдущего !
- ---
- * И добавьте объекту ezjQuery метод render, который будет возвращать
- * сгенерированную строку
- -----
- * Методу add - второй параметр, который будет размещать
- * информацию внутри тэга
+
+/*
  *
- */
-var ezjQuery2 = {
+ * Сделайте 4 объекта - не усложняйте, просто наследование
+ * через __proto__
 
-  res: '',
+ - Пользователь
+ - Верифицированный пользователь(админ)
+ - Гость
+ - База данных
 
-  add(str, inner) {
+ - База хранит информацию о пользователях //
+ - Пользователи знают мыло админа  //
+ - админ знает пароль от базы данных
+ - Гости могут зарегистрироваться в базе данных //
+ *
+ * */
+function Guest(name){
+   this.guestName = name;
+}
 
-    if (this.res.length != 0) {
-      this.res = (inner != undefined) ? this.res.replace('></', `><${str}>${inner}</${str}></`) : this.res.replace('></', `><${str}></${str}></`);
-      //console.log(this.res);
-      return this;
-    }
+function User(name){
+   this.userName = name;
+}
 
-    this.res += `<${str}></${str}>`;
-    //console.log(this.res);
-    return this;
-  },
+function Database(name){
+  this.dbName = name;
+  this.users = [];
+  this.password = 'qwerty';
+}
 
-  render() {
-    document.write(this.res);
-    console.log(this.res);
-    //return this.res; //тут что-то одно получается - или обнулить res, или ретернуть его. И обнулить, и ретернуть непонятно как
-    this.res = '';
-  }
+Database.prototype.createNewUser = function(user){
+  let newUser = new User(user);
+  console.log(newUser);
 
-};
+  this.users.push(newUser);
+}
 
+/*Database.prototype.showPassword = function(){
+  console.log('------------',this.password);
+}*/
 
-var helloList = ezjQuery2
-  .add('body') // <body></body>
-  .add('div') // <body><div></div></body>
-  .add('ul') // <body><div><ul></ul></div></body>
-  .add('li', 'Hello') //<body><div><ul><li>Hello</li></ul></div></body>
-  .render();
+/*Guest.prototype.canRegister = function(){
+  let newUser
+}*/
 
-console.log('task 3-1---> ', helloList); // <body><div><ul><li>Hello</li></ul></div></body>
-//  Обратите внимание, что после вызова render создание строки началось сначала
+//---------------------
+let guest = new Guest('guest-1');
+console.log(guest);
 
-var bodyDiv = ezjQuery2
-  .add('body') //<body></body>
-  .add('div') //<body><div></div></body>
-  .render();
-console.log('task 3-2---> ', bodyDiv); //<body><div></div></body>
+let commonUser = new User('Karl');
+console.log(commonUser);
+
+let admin = new User('Admin');
+console.log(admin);
+
+let db = new Database('mongoDB');
+console.log(db);
+
+User.prototype = {//у всех экземпляров, созданных через new User, в __proto__ prototype будет лежать adminMail: 'admin@admin.com'
+  adminMail: 'admin@admin.com'
+}
+
+admin.dbPassword = 'qwerty';
+//db.showPassword();
+
+db.createNewUser('user-1');
+db.createNewUser('user-2');
+
