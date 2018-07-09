@@ -130,20 +130,27 @@ Human2.prototype.drinkCoffe = function(){
 }
 
 //function Developer(name, age){
-		/*тут неявно создается объект и this устанавливается в Developer*/
-//	Human2.call(this, name, age)//Human2 - это ф-ция конструктор, следовательно, у нее можно вызвать call или apply
+	/*тут неявно создается объект и this устанавливается в Developer*/
+
+	//Human2.call(this, name, age)//Human2 - это ф-ция конструктор, следовательно, у нее можно вызвать call или apply
 						
-		/*тут неявно вернется этот this, он же вновь созданный объект*/
+	/*тут неявно вернется этот this, он же вновь созданный объект*/
 //}
 
 //Но еще лучше писать так:::-------------------------
 
 function Developer(...args){
 	/*args -> [] это массив*/
-	Human2.apply(this, args)//Human2 - это ф-ция конструктор, следовательно, у нее можно вызвать call или apply
-	this.skills = ['JS', 'HTML'];//если дописать еще и скилы, то будет Developer {name: "Genry", age: 32, skills: ['JS', 'HTML'])}
+	Human2.apply(this, args)// Human2 - ф-ция конструктор, следовательно, у нее можно вызвать call или apply. This здесь это Developer
+							// при вызове строки const Genry = new Developer('Genry', 32) в args приходит массив ['Genry', 32]
+							// когда происходит apply, мы попадаем в Human2, там name становится Genry, age становится 32, 
+							// и this начинает ссылаться на Developer
+	this.skills = ['JS', 'HTML'];//если дописать еще и скилы, то после того, как выполнится call, this будет равняться Developer, 
+								// у которого уже есть name: Genry и age: 32, и теперь еще добавляется свойство skills 
+								// и в итоге будет Developer {name: "Genry", age: 32, skills: ['JS', 'HTML'])}
 }
-//но пока что Генри не может пить кофе, т.к. прототип не наследуется. Поэтому пишем
+
+//но пока что Генри не может пить кофе, т.к. при таком наследовании прототип не наследуется. Поэтому пишем:
 
 Developer.prototype = Object.create(Human2.prototype);//создаем объект, который лежит в прототипе хьюмана, 
 													// т.е. возьмет только метод drinkCoffe, внутренние свойства 
@@ -155,10 +162,61 @@ const Genry = new Developer('Genry', 32);
 console.log('Genry-->', Genry);// Genry--> Developer {name: "Genry", age: 32}
 
 
+// ИНКАПСУЛЯЦИЯ--------------------------------
+// ИНКАПСУЛЯЦИЯ - ЭТО ОТДЕЛЕНИЕ СВОЙСТВ ОДНОГО ОБЪЕКТА ОТ ДРУГОГО
+// ИНКАПСУЛЯЦИЯ - это создание скрытых методов и свойств. Бывают ПУБЛИЧНЫЕ, ПРИВАТНЫЕ И ЗАЩИЩИЕННЫЕ
+// Все, что какасется инкапсуляции, касается функций-конструкторов и всего, что с ними связано
+
+// ПУБЛИЧНЫЕ МЕТОДЫ
+//Например, публичный метод это
+	Human2.prototype.eatFood = function(){
+		console.log(this.name + ' I am eating');
+	}
+
+// ЗАЩИЩЕННЫЕ МЕТОДЫ
+	Human2.prototype._receiveCash = function(){ //существует контракт, по которому если перед методом стоит подчеркивание,
+		console.log(this.name + 'got money');	// то этот метод защищенный. Это секретный язык девелоперов
+	}
+
+//Например:
+
+	Human2.prototype.drinkCola = function(){ //подразумевается, что этим методом может пользоваться разработчик, это публичный метод
+		this._createLogMessage('DRINK COLA');
+	}
+
+	Human2.prototype.eatBurger = function(){ //подразумевается, что этим методом может пользоваться разработчик, это публичный метод
+		this._createLogMessage('EAT BURGER');
+	}
+
+	Human2.prototype._createLogMessage = function(message){// подразумевается, что этим методом пользуется Human2 где-то внутри себя. 
+		console.error(message);	//Типа эй, если ты сделал себе нового Human2, не вызывай у него метод _createLogMessage
+	}
+	
+// ПРИВАТНЫЕ МЕТОДЫ
+// Приватные методы пишутся прямо в конструкторе. Это такие, которые мы никак не можем вызвать извне. Например, мы не можем вызвать
+// у вновь созданного Васи secretMessage:
+
+function Human3(name, age) {
+	this.name = name;
+	this.age = age;
+
+	let secreteMessage = '1233 4566 7788 9900'; //номер карты например
+	this.getSecreteMessage = function(){ // вернуть номер карты
+		return secreteMessage;			// только таким образом можно получить доступ к secreteMessage
+	}
+
+	this.setSecreteMessage = function(newMessage){ //установить номер карты
+
+	}
+
+}
 
 //---------------------------------------------
-/*	имя пользователя является публичным
+/*	Задача
+	Создать AutorizedUser, у которого:
+	имя пользователя является публичным
 	пароль секретный(приватный)
+
 	у вас есть метод showUserCashe
 	при вызове у пользователя showUserCashe
 	если передали правильный пароль - узнаете, сколько есть наличных
@@ -168,28 +226,30 @@ console.log('Genry-->', Genry);// Genry--> Developer {name: "Genry", age: 32}
 
 function AutorizedUser(name, password, cash){
 	this.name = name;//me
+	let myPassword = password;//secret 
 	let myCash = cash;
-
-	let myPassword = password;//secret
-
+	//---------------------------------------------------------
+	this.showUserCashe = function (userPwd) {// чтобы получить доступ к паролю и кешу, пишем приватный метод
+		if (this._isPasswordValid (userPwd, myPassword)) { // if true
+			console.log(myCash);
+			return;
+		}
+		console.error('ERROR 505'); //if false
+	}
+	//---------------------------------------------------------
 	this.addCash = function(sum, pwd){
 		if (this._isPasswordValid(pwd)) {
 			myCash = myCash + sum;
-			console.log(myCash);
-		}
+			console.log("You successfully added cash");
+			return;
+		} 
+		console.error('You entered not valid password!')
+	}
+	//----------------------------------------------------------
+}
 
-	}
-	this._isPasswordValid = function(pwd){
-		return (pwd === myPassword);
-	}
-
-	this.showUserCashe = function(userPwd){
-		if (!this._isPasswordValid(userPwd)) {
-			console.error('ERROR 505');
-		} else {
-			console.log(myCash);
-		}
-	}
+AutorizedUser.prototype._isPasswordValid = function(pwd, pwdToCompare){  //публичный метод, но защищенный
+	return pwd === pwdToCompare; // true or false
 }
 
 var me = new AutorizedUser('me', 'secret', 3500);
@@ -197,9 +257,9 @@ console.log(me);
 
 me.showUserCashe('ohoho') //-> ERROR 505;
 me.showUserCashe('secret') //-> 3500;
-me.addCash(7000, 'fdhth') //-> SUCCESS;
-me.showUserCashe('secret') //-> 10500;
+me.addCash(7000, 'fdhth') //
 me.addCash(7000, 'secret') //-> SUCCESS;
 me.showUserCashe('secret') //-> 10500;
 me.addCash(7000, 'secret') //-> SUCCESS;
+me.showUserCashe('hdjytdue') //-> 10500;
 me.showUserCashe('secret') //-> 10500;
