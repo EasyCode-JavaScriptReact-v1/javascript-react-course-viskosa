@@ -13,6 +13,7 @@
  *   req: Object
  *     PORT: number
  *     url: string
+
  *   res: Object
  *     status: number,
  *     message: string,
@@ -33,19 +34,63 @@
  * первая функция и возвращать объект и функцию
  *
  * */
+/*let ctx = ctx: Object {
+    req: Object
+      PORT: number
+      url: string
 
-function Http() { }
+    res: Object
+      status: number,
+      message: string,
+      header: Object {
+        content-type:application/json
+        }
+    }*/
+
+
+/*конструктор*/
+
+function Http() { 
+	this.ctx = {
+		req: {
+			port: 8880,
+			url: 'localhost',
+		},
+		res: {
+			status: 200,
+			message: 'OK',
+			header: {
+				content_type: 'application/json',
+			}
+		}
+	}
+
+	this.next = function(){
+		console.log('function was called');
+	}
+}
+
+/*прототипы*/
 Http.prototype.createServer = function(fn) {
 
+	this.function = function(){
+		return fn(this.ctx, this.next());
+	}
+	//console.log(this);
+	return this;
 }
 
-Http.prototype.listen = function(PORT, host) {
-
+Http.prototype.listen = function(port, host) {
+	console.log(`Server running on https:${host}:${port}`);
+	this.function();
+	//console.log(this);
+	return this;
 }
 
+/*новый экземпляр*/
 const server = new Http().createServer(function(ctx, next) {
   console.log(ctx);
-}).listen(3000, 'localhost');
+}).listen(3000, 'localhost'); //переданная ф-ция вызывается, когда вызываешь листен
 
 //-----------------------------------------------------------------
 // TASK 1
@@ -58,8 +103,10 @@ const server = new Http().createServer(function(ctx, next) {
 // Создать несколько экземпляров классов Worker и Student, вывести их в консоль.
 // Убедиться что они имеют поля родительского класса Human
 
+ // ---- родительский класс ----
+function Human(options){
+	let {name, age, sex, height, weight} = options;
 
-function Human(name, age, sex, height, weight){//...args
 	this.name = name;
 	this. age = age;
 	this.sex = sex;
@@ -67,10 +114,48 @@ function Human(name, age, sex, height, weight){//...args
 	this.weight = weight;
 }
 
+//--------------worker-----------------------
+
+function Worker(options){	//сюда пришел объект переданных свойств
+	let {job, salary, ...humanProps} = options;
+
+	Human.call(this, humanProps);//call, а не apply потому что humanProps - это объект, а не массив
+
+	this.job = job;
+	this.salary = salary;
+}
+
+Worker.prototype = Object.create(Human.prototype);
+
+Worker.prototype.working = function(){
+	console.log(this.name + ' can work');
+}
+
+//--------------student-----------------------
+
+function Student(options){
+	let {univer, scolarship, ...rest} = options;
+
+	Human.call(this, rest);
+
+	this.univer = univer;
+	this.scolarship = scolarship;
+}
+
+Student.prototype = Object.create(Human.prototype);
+
+Student.prototype.toSeeMovies = function(){
+	console.log(this.name + ' can see movies');
+}
+
+let workerAndrew = new Worker({name:'Andrew', age:23, sex:'male', height:186, weight:80, job: 'pilot', salary: 10000});
+console.log(workerAndrew);
+workerAndrew.working();
 
 
-
-
+let studentAlla = new Student({sex:'female', height:160, name:'Alla', age:19, weight:55, univer: 'KIMO', scolarship: false});
+console.log(studentAlla);
+studentAlla.toSeeMovies();
 
 // @SUPER
 
