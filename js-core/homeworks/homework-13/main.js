@@ -122,27 +122,49 @@ studentAlla.toSeeMovies();
 class DataBase {
 	constructor(){
 		this.counter = 5;
+		//this.timer = null;
 	}
 
 	counterFunc() {
 		return this.counter--;
 	}
 
+	timeoutFunc() {
+		let now = this.counterFunc();
+
+		if ( now > 0) {
+			console.log(now);
+			this.query();
+			return;
+		}
+		console.log('The web server is down');
+	}
+
 	query() {
+		if (this.timer) {
+			clearTimeout(this.timer);
+		}
+		this.timer = setTimeout(this.timeoutFunc.bind(this), 1000);//прибинди к ф-ции this.timeoutFunc этот создаваемый экземпляр this
+	}
 
-		setTimeout(() => {
+/*	query() {
+		if (this.timer) {
+			clearTimeout(this.timer);
+		}
 
-			let now = this.counterFunc();
-			if ( now > 0) {
-				console.log(now);
-				this.query();
-				return;
-			}
-			console.log('The web server is down');
+		this.timer = setTimeout(() => {
 
-		}, 1000);
+				let now = this.counterFunc();
+				if ( now > 0) {
+					console.log(now);
+					this.query();
+					return;
+				}
+				console.log('The web server is down');
 
-	}	
+			}, 1000);
+		//console.log(this.timer);
+	}	*/
 	
 
 }
@@ -150,7 +172,7 @@ class DataBase {
 const dataBase = new DataBase();
 console.log(dataBase);
 dataBase.query(); //при вызове второй раз метода dataBase.query() this.counter уже равен 0 и как его обновить?
-
+dataBase.query();
 //console.log(dataBase.counterFunc());
 //console.log(dataBase.counterFunc());
 //console.log(dataBase.counterFunc());
