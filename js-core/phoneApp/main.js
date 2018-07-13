@@ -13,7 +13,7 @@
 Сортировка пользователей по номеру телефона, фамилии, имени и тд, по любому из свойств пользователя
 Фильтр по указанному свойству*/
 
-function PhoneApp() {
+function oldPhoneApp() {
   this.dataBase = [
         {id:1, name:'Vasya', phone:'qweqwe'},
         {id:1, name:'Vasya', phone:'qweqwe'},
@@ -22,23 +22,23 @@ function PhoneApp() {
     ]
 }
 
-PhoneApp.prototype.editUser = function(id, options) {
+oldPhoneApp.prototype.editUser = function(id, options) {
   /*
    options.name
    options.
   */  
 }
 
-PhoneApp.prototype._validate= function(id, options) {
+oldPhoneApp.prototype._validate= function(id, options) {
   /*
    options.name
    options.
   */  
 }
 
-const myApp = new PhoneApp();
+const oldmyApp = new oldPhoneApp();
 
-class PhoneApp (){
+class PhoneApp {
   constructor() {
     this.dataBase = [
         {id:1, name:'Vasya', phone:'qweqwe'},
@@ -47,6 +47,28 @@ class PhoneApp (){
         {id:1, name:'Vasya', phone:'qweqwe'},
     ]
   }
+
+  normalizePhoneNumber(...args){
+    let arrNumber = args[0].split('');
+
+    arrNumber.splice(0,0,'(');
+    arrNumber.splice(4,0,') ');
+    arrNumber.splice(7,0,'-');
+    arrNumber.splice(10,0,'-'); 
+
+    let result = arrNumber.join('');
+    //console.log(result);
+    return result;
+  }
+
+  validatePhoneNumber(...args) {// ырщгдв иу сфддув иуащку 
+    console.log(args);
+    let arrNumber = args[0].split('');
+    let etalon = ['1','2','3','4','5','6','7','8','9','0'];
+
+
+  }
+
 
   editUser(id, options) {
     /*
@@ -62,3 +84,9 @@ class PhoneApp (){
   */  
   }
 }
+
+const myApp = new PhoneApp();
+console.log(myApp);
+//-
+console.log(myApp.normalizePhoneNumber('0993452845'));
+console.log(myApp.validatePhoneNumber('0993452845'));
