@@ -121,61 +121,37 @@ studentAlla.toSeeMovies();
 
 class DataBase {
 	constructor(){
-		this.counter = 5;
-		//this.timer = null;
 	}
 
 	counterFunc() {
-		return this.counter--;
+		this.counter = 5;
+		this.timer = setInterval(this.timeoutFunc.bind(this), 1000);
 	}
 
 	timeoutFunc() {
-		let now = this.counterFunc();
 
-		if ( now > 0) {
-			console.log(now);
-			this.query();
+		if (this.counter < 1) {
+			console.log('The web server is down');
+			clearInterval(this.timer);
 			return;
 		}
-		console.log('The web server is down');
+		console.log(this.counter--);
 	}
+
 
 	query() {
 		if (this.timer) {
-			clearTimeout(this.timer);
+			clearInterval(this.timer);
 		}
-		this.timer = setTimeout(this.timeoutFunc.bind(this), 1000);//прибинди к ф-ции this.timeoutFunc этот создаваемый экземпляр this
+		this.counterFunc();
 	}
-
-/*	query() {
-		if (this.timer) {
-			clearTimeout(this.timer);
-		}
-
-		this.timer = setTimeout(() => {
-
-				let now = this.counterFunc();
-				if ( now > 0) {
-					console.log(now);
-					this.query();
-					return;
-				}
-				console.log('The web server is down');
-
-			}, 1000);
-		//console.log(this.timer);
-	}	*/
-	
 
 }
 
 const dataBase = new DataBase();
 console.log(dataBase);
-dataBase.query(); //при вызове второй раз метода dataBase.query() this.counter уже равен 0 и как его обновить?
 dataBase.query();
-//console.log(dataBase.counterFunc());
-//console.log(dataBase.counterFunc());
-//console.log(dataBase.counterFunc());
+//dataBase.query();
 
 
 /*function QQQ(){ //closure
