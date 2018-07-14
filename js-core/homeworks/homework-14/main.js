@@ -1,3 +1,98 @@
+
+const someWebpackModule = `module.exports = {
+    context: %%HOMEDIR%,
+    entry: {
+        app: "%%HOMEDIR%%/%%APP_DIR%%/%%APPNAME%%.js"
+    },
+    output: {
+        path: %%HOMEDIR%% + '/app',
+        filename: "dist/[%%APPNAME%%].js",
+        library: '[%%APPNAME%%]'
+    }
+   }`;
+
+/* TASK - 1
+Распарсите строку и замените
+ %%HOMEDIR%% -> './JavaScript-Basic'
+ %%APP_DIR%% -> 'fixtures/src'
+ %%APPNAME%% -> 'app.js'
+ Вам нужно написать функцию которая в зависимости от разных параметров
+ будет изменять заданные значения на необходимые вам
+ Сделайте несколько вызовов данной функции
+ *
+ */
+class Parser {
+	constructor(){
+		this.result = '';
+	}
+
+	parseIt(str, shouldBeChanged, shouldChange) {
+		if (!str.includes(shouldBeChanged)) {
+			console.log('There is no matches') ;
+			return this.result;
+		}
+		this.result = str.replace(shouldBeChanged, shouldChange);
+		this.parseIt(this.result, shouldBeChanged, shouldChange);
+		return this.result;
+	}
+
+}
+
+let myParser = new Parser();
+console.log(myParser.parseIt(someWebpackModule, '%%HOMEDIR%%', './JavaScript-Basic'));
+console.log(myParser.parseIt(someWebpackModule, '%%APP_DIR%%', 'fixtures/src'));
+console.log(myParser.parseIt(someWebpackModule, '%%APPNAME%%', 'app.js'));
+console.log(myParser.parseIt(someWebpackModule, '%%HOME%%', './JavaScript-Basic'));//return 'There is no matches';
+//----------------------------------------------------
+/*class Parser {
+	constructor(){
+		this.result = '';
+	}
+
+	parseIt(str, arr) {
+		//let [someWebpackModule, arr] = args;
+		console.log(arr);
+
+
+		arr.forEach((item) => {
+			console.log(item.prev);
+			if (!str.includes(item.prev)) {
+				console.log('There is no matches') ;
+				//return this.result;
+			}
+
+			this.result = str.replace(item.prev, item.next);
+			this.parseIt(this.result, item.prev, item.next);
+			//return this.result;
+
+		})
+
+
+	}
+
+}
+
+let myParser = new Parser();
+console.log(myParser.parseIt(someWebpackModule, [
+													{
+														prev:'%%HOMEDIR%%', 
+														next:'./JavaScript-Basic'
+													},
+													{
+														prev:'%%APP_DIR%%', 
+														next:'fixtures/src'
+													}, 
+													{
+														prev:'%%HOME%%', 
+														next:'.app.js'
+													}
+												]
+											));*/
+//console.log(myParser.parseIt(someWebpackModule, '%%APP_DIR%%', 'fixtures/src'));
+//console.log(myParser.parseIt(someWebpackModule, '%%APPNAME%%', 'app.js'));
+//console.log(myParser.parseIt(someWebpackModule, '%%HOME%%', './JavaScript-Basic'));//return 'There is no matches';
+//--------------------------------------------------------------------
+
 class app {
 	constructor(){
 		this.state = 0;
