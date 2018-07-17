@@ -1,4 +1,19 @@
+/*
+TASK 0. Найдите числа которые повторяются нечетное количество раз
+в массиве*/
+  //console.log(solution([12, 23, 34, 12, 12, 23, 12, 45]))// -> [34 45]
+  //console.log(solution([4, 4, 100, 5000, 4, 4, 4, 4, 4, 100, 100,]))// -> [4 100 5000]
+  //console.log(solution([3, 3, 4, 6, 4, 5, 9, 9, 21, 9])) //-> [6 5 9 21]
+  //console.log(solution([4, 8, 15, 16, 23, 42, 4, 15, 42, 42]))// -> [8 16 23 42]
+  //console.log(solution([2, 2, 44, 44]))// => []
 
+
+function solution(arr){
+
+}
+
+
+//------------------------------------------------------------
 const someWebpackModule = `module.exports = {
     context: %%HOMEDIR%,
     entry: {
@@ -10,6 +25,7 @@ const someWebpackModule = `module.exports = {
         library: '[%%APPNAME%%]'
     }
    }`;
+
 
 /* TASK - 1
 Распарсите строку и замените
@@ -43,6 +59,7 @@ console.log(myParser.parseIt(someWebpackModule, '%%HOMEDIR%%', './JavaScript-Bas
 console.log(myParser.parseIt(someWebpackModule, '%%APP_DIR%%', 'fixtures/src'));
 console.log(myParser.parseIt(someWebpackModule, '%%APPNAME%%', 'app.js'));
 console.log(myParser.parseIt(someWebpackModule, '%%HOME%%', './JavaScript-Basic'));//return 'There is no matches';
+
 //----------------------------------------------------
 /*class Parser {
 	constructor(){
