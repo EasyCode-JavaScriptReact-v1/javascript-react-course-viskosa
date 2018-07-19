@@ -91,66 +91,67 @@ console.log(myParser.parseIt(someWebpackModule, '%%HOME%%', './JavaScript-Basic'
 
 let myParser = new Parser();
 console.log(myParser.parseIt(someWebpackModule, [
-													{
-														prev:'%%HOMEDIR%%', 
-														next:'./JavaScript-Basic'
-													},
-													{
-														prev:'%%APP_DIR%%', 
-														next:'fixtures/src'
-													}, 
-													{
-														prev:'%%HOME%%', 
-														next:'.app.js'
-													}
-												]
+							{
+								prev:'%%HOMEDIR%%', 
+								next:'./JavaScript-Basic'
+							},
+							{
+								prev:'%%APP_DIR%%', 
+								next:'fixtures/src'
+							}, 
+							{
+								prev:'%%HOME%%', 
+								next:'.app.js'
+							}
+						]
 											));*/
 //console.log(myParser.parseIt(someWebpackModule, '%%APP_DIR%%', 'fixtures/src'));
 //console.log(myParser.parseIt(someWebpackModule, '%%APPNAME%%', 'app.js'));
 //console.log(myParser.parseIt(someWebpackModule, '%%HOME%%', './JavaScript-Basic'));//return 'There is no matches';
 //--------------------------------------------------------------------
 
-class app {
+class App {
 	constructor(){
 		this.state = 0;
 	}
 
 	createElement(options) {
 
-		let {node, className, typeAttr, nameAttr, idAttr, forAttr, actionAttr, methodAttr, valueAttr, nodeValue} = options;
+		//let {node, className, typeAttr, nameAttr, idAttr, forAttr, actionAttr, methodAttr, valueAttr, nodeValue} = options;
+		let {node, attributes, nodeValue} = options;
 
 		let elem = document.createElement(node);
 
-		if (className) {
-			elem.setAttribute('class', className);
+		if (attributes.className) {
+			elem.setAttribute('class', attributes.className);
 		};
 
-		if (typeAttr) {
-			elem.setAttribute('type', typeAttr);
+		if (attributes.typeAttr) {
+			elem.setAttribute('type', attributes.typeAttr);
 		};
 
-		if (nameAttr) {
-			elem.setAttribute('name', nameAttr);
+		if (attributes.nameAttr) {
+			elem.setAttribute('name', attributes.nameAttr);
 		};
 
-		if (idAttr) {
-			elem.setAttribute('id', idAttr);
+		if (attributes.idAttr) {
+			elem.setAttribute('id', attributes.idAttr);
 		};
 
-		if (forAttr) {
-			elem.setAttribute('for', forAttr);
+		if (attributes.forAttr) {
+			elem.setAttribute('for', attributes.forAttr);
 		};
 
-		if (actionAttr) {
-			elem.setAttribute('action', actionAttr);
+		if (attributes.actionAttr) {
+			elem.setAttribute('action', attributes.actionAttr);
 		};
 
-		if (methodAttr) {
-			elem.setAttribute('method', methodAttr);
+		if (attributes.methodAttr) {
+			elem.setAttribute('method', attributes.methodAttr);
 		};
 
-		if (valueAttr) {
-			elem.setAttribute('value', valueAttr);
+		if (attributes.valueAttr) {
+			elem.setAttribute('value', attributes.valueAttr);
 		};
 
 		if (nodeValue) {
@@ -161,11 +162,11 @@ class app {
 	}
 
 	createQuestionItem(){
-		let parent = this.createElement({node:'div', className:'question-item'});
-		let input = this.createElement({node:'input', className:'checkbox', typeAttr:'checkbox', nameAttr:'checkbox1', idAttr:'checkbox1'});
+		let parent = this.createElement({node:'div', attributes:{ className:'question-item'} });
+		let input = this.createElement({node:'input', attributes:{ className:'checkbox', typeAttr:'checkbox', nameAttr:'checkbox1', idAttr:'checkbox1'} });
 		parent.appendChild(input);
 
-		let label = this.createElement({node:'label', className:'label', forAttr:'checkbox1', nodeValue: 'Вариант ответа №1'})
+		let label = this.createElement({node:'label', attributes:{ className:'label', forAttr:'checkbox1'}, nodeValue: 'Вариант ответа №1' })
 		parent.appendChild(label);
 		console.log(parent);
 	}
@@ -173,28 +174,28 @@ class app {
 
 	render() {
 		//creating main tag
-		let main = this.createElement({node:'main', className:'wrapper'});
+		let main = this.createElement({node:'main', attributes:{ className:'wrapper'} });
 		//creating title
-		let h1 = this.createElement({node:'h1', className:'title', nodeValue:'Тест по программированию'});
+		let h1 = this.createElement({node:'h1', attributes:{ className:'title'}, nodeValue:'Тест по программированию'} );
 		main.appendChild(h1);//может вынести в отдельный метод??
 
 		//creating form
-		let form = this.createElement({node:'form', actionAttr:'#', methodAttr:'post'});
+		let form = this.createElement({node:'form', attributes:{ actionAttr:'#', methodAttr:'post'} });
 
 		for (let i = 0; i < 3; i++) {
 			
 			//creating questions blocks
-			let questionBlock = this.createElement({node:'div', className:'question-block'});
-			let questionTitle = this.createElement({node:'p', className:'question-title', nodeValue:`${i+1}. Вопрос №${i+1}`});
+			let questionBlock = this.createElement({node:'div', attributes:{ className:'question-block' }});
+			let questionTitle = this.createElement({node:'p', attributes:{ className:'question-title'}, nodeValue:`${i+1}. Вопрос №${i+1}`} );
 			questionBlock.appendChild(questionTitle);
 
 			for (let j = this.state; j < this.state + 3; j++) {// 0, 1, 2
 				//creating question-item
-				let questionItem = this.createElement({node:'div', className:'question-item'});
-				let input = this.createElement({node:'input', className:'checkbox', typeAttr:'checkbox', nameAttr:`checkbox${j+1}`, idAttr:`checkbox${j+1}`});
+				let questionItem = this.createElement({node:'div', attributes:{ className:'question-item'} });
+				let input = this.createElement({node:'input', attributes:{ className:'checkbox', typeAttr:'checkbox', nameAttr:`checkbox${j+1}`, idAttr:`checkbox${j+1}`} });
 				questionItem.appendChild(input);
 
-				let label = this.createElement({node:'label', className:'label', forAttr:`checkbox${j+1}`, nodeValue: `Вариант ответа №${j+1}`})
+				let label = this.createElement({node:'label', attributes:{ className:'label', forAttr:`checkbox${j+1}`}, nodeValue: `Вариант ответа №${j+1}`} )
 				questionItem.appendChild(label);
 				questionBlock.appendChild(questionItem);
 			}
@@ -205,8 +206,8 @@ class app {
 
 		}
 
-		let buttonWrap = this.createElement({node:'div', className:'submit-wrapper'});
-		let button = this.createElement({node:'input', className:'submit', typeAttr: 'submit', valueAttr:'Проверить мои результаты'});
+		let buttonWrap = this.createElement({node:'div', attributes:{ className:'submit-wrapper'} });
+		let button = this.createElement({node:'input', attributes:{ className:'submit', typeAttr: 'submit', valueAttr:'Проверить мои результаты'} });
 		buttonWrap.appendChild(button);
 		form.appendChild(buttonWrap);
 	
@@ -216,5 +217,5 @@ class app {
 
 }
 
-const myDOM = new app();
+const myDOM = new App();
 myDOM.render();
