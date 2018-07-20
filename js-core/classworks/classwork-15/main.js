@@ -30,7 +30,7 @@ const app = {
     button.textContent= 'Проверить результаты';
 
     button.onclick = function(){//изменяем заголовок у второго вопроса
-    		console.log('clicked');
+    		//console.log('clicked');
     		//questionsList.children[1].children[0].textContent = 'Вопрос 9999';
 
     		if (questionsList.children[1].children[0].textContent == 'Вопрос 9999') {
@@ -41,11 +41,10 @@ const app = {
     		console.log(questionsList.children[1].children[1].children[0].lastChild.checked);
     		let input = questionsList.children[1].children[1];
     		
+        // по клику то чекед, то не чекед
+    		input.children[0].firstElementChild.checked = !input.children[0].firstElementChild.checked;//toggle
+    		input.children[2].firstElementChild.checked = !input.children[2].firstElementChild.checked;
 
-    		//input.children[0].firstElementChild.checked = !input.children[0].firstElementChild.checked;//toggle
-    		//input.children[2].firstElementChild.checked = !input.children[2].firstElementChild.checked;
-
-    		//let list = questionsList.children[item].children[1].children[1].firstElementChild.checked;
 
     		for (let i = 0; i < questionsList.children.length; i++){
     			console.log(questionsList.children[i].children[1].children[1].firstElementChild);
@@ -59,12 +58,16 @@ const app = {
     			title.setAttribute('style', 'background: red')
     		}
 
-    		let titles = document.querySelectorAll('h3');
-    		for (let i = 0; i < titles.length; i++){
+    		let titles = document.querySelectorAll('h3');//это не массив, а коллекция элементов, у нее нет методов массивов
+                                                      //только for-ом можно пройти
+        [...titles].forEach((item) => {               //но вот так можно превратить ее в массив
+          item.setAttribute('style', 'background: green');  // и жизнь налаживается
+        })
+/*    		for (let i = 0; i < titles.length; i++){    //ну или фором
     			let title = titles[i];
     			//console.log(title);
     			title.setAttribute('style', 'background: green')
-    		}
+    		}*/
 
     		
     	}
