@@ -1,17 +1,17 @@
 const questions = [
   {
-    questionName: 'question 1',
-    answers: ['answer 1', 'answer 2', 'answer 3'],
+    questionName: 'вопрос 1',
+    answers: ['answer 1.1', 'answer 1.2', 'answer 1.3'],
     correctAnswersIndexes: [1]
   },
   {
-    questionName: 'question 2',
-    answers: ['answer 1', 'answer 2', 'answer 3'],
+    questionName: 'вопрос 2',
+    answers: ['answer 2.1', 'answer 2.2', 'answer 2.3'],
     correctAnswersIndexes: [2]
   },
   {
-    questionName: 'question 3',
-    answers: ['answer 1', 'answer 2', 'answer 3'],
+    questionName: 'вопрос 3',
+    answers: ['answer 3.1', 'answer 3.2', 'answer 3.3'],
     correctAnswersIndexes: [1, 2]
   }
 ];
@@ -45,13 +45,11 @@ const app = {
     		input.children[0].firstElementChild.checked = !input.children[0].firstElementChild.checked;//toggle
     		input.children[2].firstElementChild.checked = !input.children[2].firstElementChild.checked;
 
-
     		for (let i = 0; i < questionsList.children.length; i++){
     			console.log(questionsList.children[i].children[1].children[1].firstElementChild);
     						questionsList.children[i].children[1].children[1].firstElementChild.checked;
     		}
 
-			console.dir(questionsList);
     		for (let i = 0; i < questionsList.children.length; i++){
     			let title = questionsList.children[i].firstElementChild;
     			console.log(title);
@@ -68,8 +66,6 @@ const app = {
     			//console.log(title);
     			title.setAttribute('style', 'background: green')
     		}*/
-
-    		
     	}
     /*
     * this.renderQuestions()
@@ -115,14 +111,13 @@ const app = {
     li.appendChild(label);
     return li;*/
 
-  //-----перепишем на innerHTML----------
+  //-----перепишем на innerHTML-----------------------------
     const uniqId = `uniq_${Math.random()}_${answerIndex}`;
 
     return `<li>
-                <input type="checkbox" id="${uniqId}"">${answer}</input>
-                <label for="${uniqId}""></label>
+                <input type="checkbox" id="${uniqId}"></input>
+                <label for="${uniqId}">${answer}</label>
             </li>`;
-
   },
 
   newEl(elName) {
@@ -132,7 +127,7 @@ const app = {
 
 app.render();
 
-//----------------CLASSWORK 16---------------------
+//----------------CLASSWORK 16---------------------------
 const main = document.querySelector('main');
 const span = document.createElement('span');
 
@@ -142,6 +137,7 @@ document.body.insertBefore(span, main);
 
 
 //-----------------------
+//добавить кнопку 
 //по клику на кнопку перед каждым ответом вставить something
 let newButton = document.createElement('button');
 newButton.textContent = 'NEW BUTTON';
@@ -149,7 +145,31 @@ newButton.style.cssText = 'display:block; margin: 30px';
 
 main.appendChild(newButton);
 
-newButton.onclick = function(){
+/*
+* Все вопросы в DOM
+* проходимся по каждому вопросу
+* questions[DOMIndexQuestion]
+* labelIndex
+*
+* */
+// label - 'answer 1.2'
+// question.correctAnswers.includes(label) -- CORRECT
+
+const findCorrectAnswer = answerToValidate => {
+  let correctAnswers = questions.map(question =>
+    question.correctAnswersIndexes.map(answerIndex => {
+      return question.answers[answerIndex];
+    })
+  );
+  // correctAnswersIndexes: [1] before
+  // correctAnswersIndexes: ['answer 1.2'] after
+
+  return correctAnswers.some(answer => {
+    return answer.includes(answerToValidate);
+  });
+}; 
+
+newButton.onclick = () => {
   //по клику на кнопку перед каждым ответом вставить something
   let ul_s = document.querySelectorAll('ul');//3
 
@@ -168,61 +188,56 @@ newButton.onclick = function(){
   //по клику на кнопку возле каждого инпута вставить correct или incorrect 
   //на основании значения correctAnswers из массива questions:
 
-  const findCorrectAnswer = (answerToValidate, questions) => {
-   let correctAnswers = questions.map(question => {
-    question.correctAnswersIndexes.map(answerIndex => {
-      return question.answers[answerIndex];
-    })
+     const labels = document.querySelectorAll('label');
 
-    })
+     [...labels].forEach(label => {
+        const newSpan = document.createElement('span');
 
+        const labelStatus = findCorrectAnswer(label.textContent)
+          ? 'CORRECT'
+          : 'INCORRECT';
+      newSpan.textContent = labelStatus;
+      label.parentElement.insertBefore(newSpan, label);
+        //console.log(findCorrectAnswer(label.textContent));
+     })
+  
 
-   const labels = document.querySelectorAll('label');
-   [...labels].forEach(label => {
-    const newSpan = document.createElement('span');
+    //----insertAdjacentHTML, insertAdjacentElement----------------------
 
-    let labelStatus = findCorrectAnswer(label.textContent) ? 'CORRECT' : 'INCORRECT';
-    newSpan.textContent = labelStatus;
-    label.parentElement.insertBefore(newSpan, label);
-    //console.log(findCorrectAnswer(label.textContent));
-   })
-  }
+    const body = document.body;
 
-//----insertAdjacentHTML, insertAdjacentElement----------------------
+    main.insertAdjacentElement('afterBegin', newButton);
 
-const body = document.body;
+    //-----innerHTML----------------------------------------------------
+    //берет или вставляет содержимое тега (то, что написано внутри тега, 
+    //включая вложенные теги, если они там есть)
 
-main.insertAdjacentElement('afterBegin', newButton);
+    //-----outerHTML----------------------------------------------------
+    //берет или вставляет содержимое тега (то, что написано внутри тега, 
+    //включая вложенные теги, если они там есть, и еще и сам себя покажет)
 
-//-----innerHTML----------------------------------------------------
-//берет или вставляет содержимое тега (то, что написано внутри тега, 
-//включая вложенные теги, если они там есть)
+    //добавьте к бади что-то через innerHTML
 
-//-----outerHTML----------------------------------------------------
-//берет или вставляет содержимое тега (то, что написано внутри тега, 
-//включая вложенные теги, если они там есть, и еще и сам себя покажет)
+    body.innerHTML += `<div>some inner html</div>`;
 
-//добавьте к бади что-то через innerHTML
+    //--добавьте список ниже текста---------
+    const javaScriptOneLove = [
+      'Arrow',
+      'Closures',
+      'Classes'
+    ];
 
-body.innerHTML += `<div>some inner html</div>`;
+    let createList = arr => {
+      const renderItems = arr.map(item => 
+         `<li>${item}</li>`
+        ).join('');
 
-//--добавьте список ниже текста---------
-const javaScriptOneLove = [
-  'Arrow',
-  'Closures',
-  'Classes'
-];
+      return `<ul>
+                ${renderItems}
+              </ul>`
+    }
 
-let createList = arr => {
-  const renderItems = arr.map(item => 
-     `<li>${item}</li>`
-    ).join('');
-
-  return `<ul>
-            ${renderItems}
-          </ul>`
-}
-
-body.innerHTML += createList(javaScriptOneLove);
+    body.innerHTML += createList(javaScriptOneLove);
 
 }//end of onclick function
+
