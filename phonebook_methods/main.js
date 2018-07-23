@@ -23,8 +23,11 @@ class PhoneApp {
   }
 
   //1. Преобразование телефонного номера из формата 0993378130 в (099) 33-78-130
-  normalizePhoneNumber(...args){
+  normalizePhoneNumber(...args){ //Oleg: I guess you can directly pass 1 argument without additional overhead
     let arrNumber = args[0].split('');
+
+    //Oleg: what about regular expression for creating phone number ? It would make it much clearly
+    //You can find how to do so at Lesson 14 part 2
 
     arrNumber.splice(0,0,'(');
     arrNumber.splice(4,0,') ');
@@ -50,7 +53,7 @@ class PhoneApp {
     let {name, surname, phone, company} = options;
     let id = Math.round(Math.random()*100);
 
-    let newUser = {};
+    let newUser = {}; //Oleg: you could create another Class which would be call User
     newUser.id = id;
     newUser.name = name;
     newUser.surname = surname;
@@ -106,7 +109,8 @@ class PhoneApp {
   changeInfo(id, options){
     let {name, surname, phone, company} = options;
 
-    this.dataBase.map((item) => {
+    this.dataBase.map((item) => {  //it's better to name user instead of item.
+                                    //Why do you call users as item ? :)
         if (item.id == id) {
             if (name) {
               item.name = name;
