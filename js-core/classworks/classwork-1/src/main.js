@@ -141,18 +141,8 @@ function createCounter2(initialState){    //1 шаг //6шаг - передае�
 const myCounter2 = createCounter2(50); //4 шаг //6 шаг  - если здесь в createCounter 
                                     //передать число - все ок, а если не передавать - будет много NaN
                                     //чтобы этого избежать, добавляем в 118 строке "или равно 0"
-<<<<<<< HEAD
 
 console.log(myCounter2.add())       //2.add());      //5 шаг
 console.log(myCounter2.add());      //5 шаг
 console.log(myCounter2.add10());      //5 шаг
 console.log(myCounter2.lastState());      //5 шаг
-=======
-
-console.log(myCounter2.add())       //2.add());      //5 шаг
-console.log(myCounter2.add());      //5 шаг
-console.log(myCounter2.add10());      //5 шаг
-console.log(myCounter2.lastState());      //5 шаг
-
-
->>>>>>> the last task was fixed
