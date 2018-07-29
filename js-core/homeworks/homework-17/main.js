@@ -13,24 +13,90 @@
 const solution = arr => {
 };
 
-console.log(solution([16, 17, 4, 3, 5, 2])); // === [17, 5, 2]
-console.log(solution([4, 3, 7, 12, 6, 67, 5, 45, 34, 35, 2, 8])); // [67, 45, 35, 8]
-console.log(solution([12, 10, 12, 8, 7, 6])); // [12, 8, 7, 6]
-console.log(solution([1, 2, 3, 4, 5, 4])); // [5, 4]
-console.log(solution([12, 12, 12])); // [5, 4]
+//console.log(solution([16, 17, 4, 3, 5, 2])); // === [17, 5, 2]
+//console.log(solution([4, 3, 7, 12, 6, 67, 5, 45, 34, 35, 2, 8])); // [67, 45, 35, 8]
+//console.log(solution([12, 10, 12, 8, 7, 6])); // [12, 8, 7, 6]
+//console.log(solution([1, 2, 3, 4, 5, 4])); // [5, 4]
+//console.log(solution([12, 12, 12])); // [5, 4]
 
-/* TASK 1---------------------------------------------------------------
+/* TASK 1--------------------------------------------------------------
  * Сделайте карусель.
  * При клике по кнопке "<=" показывается первое изображение по "=>" следующее.
  *
- * 1.1
+  1.1
  * Сделайте слайдер - бесконечным, после третьего изображения снова первое.
  * 1.2
  * Добавьте внизу цифры с текущим активным изображением.
- *
- *
- *
- * @SUPER -> @front-end---------------------------------------------------
+ */
+ /*создайте новый instance Carouse при вызове initialize*/  //не поняла, что это значит
+/*var myInitializedCarousel = Carousel.initialize({
+  elementToApply: '.carousel',
+  infinity: true,
+});*/
+
+
+/*class Carousel {
+
+	static initialize() {
+		return new Carousel;
+	}
+
+	constructor(){
+		this.clickHandler();
+	}
+
+	clickHandler() {
+		let leftArrow = document.querySelector('.ec-left');
+		let rightArrow = document.querySelector('.ec-right');
+		let slides = [...document.querySelectorAll('li')];
+		let activeNumberSpan = document.querySelector('.number');
+		let activeSlide = null;
+
+		slides.forEach((item) => {
+			if (item.getAttribute('style') == 'display: block') {
+				activeSlide = item;
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+			}
+		});
+
+		leftArrow.onclick = () => {
+			activeSlide.setAttribute('style', 'display:none');
+			if (activeSlide.previousElementSibling) {
+				activeSlide.previousElementSibling.setAttribute('style', 'display:block');
+				activeSlide = activeSlide.previousElementSibling;
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+
+			} else {
+				slides[slides.length - 1].setAttribute('style', 'display:block');
+				activeSlide = slides[slides.length - 1];
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+			}
+			
+		}
+
+		rightArrow.onclick = () => {
+			activeSlide.setAttribute('style', 'display:none');
+			if (activeSlide.nextElementSibling) {
+				activeSlide.nextElementSibling.setAttribute('style', 'display:block');
+				activeSlide = activeSlide.nextElementSibling;
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+			} else {
+				slides[0].setAttribute('style', 'display:block');
+				activeSlide = slides[0];
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+			}
+
+		}
+
+	}
+
+}
+//let myCarousel = new Carousel;
+var myInitializedCarousel = Carousel.initialize();
+*/
+
+
+ /* @SUPER -> @front-end---------------------------------------------------
  * Уберите в стилях li - position:absolute.
  * изменяйте свойство transform:translate3d у .carousel, добавьте transition
  * и сделайте чтобы картинки передвигались влево и вправо
@@ -39,12 +105,76 @@ console.log(solution([12, 12, 12])); // [5, 4]
  *
  * */
 class Carousel {
+
+	static initialize() {
+		return new Carousel;
+	}
+
+	constructor(){
+		this.clickHandler();
+	}
+
+	clickHandler() {
+		let leftArrow = document.querySelector('.ec-left');
+		let rightArrow = document.querySelector('.ec-right');
+
+		let parent = document.querySelector('ul');
+		let slides = [...parent.children];
+
+		let oneChildWidth = parseInt(getComputedStyle(slides[0]).width);
+		let parentWidth = oneChildWidth * slides.length;
+		parent.style.width = parentWidth + 'px';
+
+		let activeSlide = parent.firstElementChild;
+
+		let activeNumberSpan = document.querySelector('.number');
+		activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+
+
+		leftArrow.onclick = () => {
+
+			if (activeSlide.nextElementSibling) {
+
+				parent.style.transform += `translateX(-${oneChildWidth}px)`;
+				activeSlide = activeSlide.nextElementSibling;
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+
+			} else {
+				parent.style.transform = `translateX(0px)`;
+				activeSlide = parent.firstElementChild;
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+			}
+			
+		}
+
+		rightArrow.onclick = () => {
+
+			if (activeSlide.previousElementSibling) {
+
+				parent.style.transform += `translateX(${oneChildWidth}px)`;
+				activeSlide = activeSlide.previousElementSibling;
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+
+			} else {
+
+				parent.style.transform = `translateX(-${oneChildWidth*(slides.length-1)}px)`;
+				activeSlide = parent.lastElementChild;
+				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+			}
+
+		}
+
+	}
+
 }
-/*создайте новый instance Carouse при вызове initialize*/
-var myInitializedCarousel = Carousel.initialize({
-  elementToApply: '.carousel',
-  infinity: true,
-});
+//let myCarousel = new Carousel;
+var myInitializedCarousel = Carousel.initialize(
+	//{
+	  //elementToApply: '.carousel',
+	  //infinity: true,
+	//}
+);
+
 
 /*
 * TASK 2---------------------------------------------------------------------
@@ -60,7 +190,49 @@ var myInitializedCarousel = Carousel.initialize({
 * <style>.fetch {
 * background-color
 * */
+class PutIntoHead {
+	constructor(){
 
+	}
+
+	topStyle(selector, obj){
+		let styleTag = document.querySelector('style');
+		console.log(obj);
+		let styles = this.createRow(obj);
+
+		let selectorToInsert = `${selector} {
+			${styles}
+		}`;
+
+		styleTag.insertAdjacentHTML('beforeEnd', selectorToInsert);
+	}
+
+	createRow(obj) {
+		let result = '';
+		let pattern = /[A-Z]/;
+		for (let key in obj){
+
+			if (key.match(pattern)){
+
+				let arrOfUppercased = key.match(pattern);
+				let newKey = key.replace(arrOfUppercased[0], `-${arrOfUppercased[0].toLowerCase()}`);
+
+				result += `${newKey}: ${obj[key]}; `;
+
+			} else {
+
+				result += `${key}: ${obj[key]}; `;
+			}
+
+		}
+
+		return result;
+	}
+
+}
+
+let myClass = new PutIntoHead;
+myClass.topStyle('fetch', {backgroundColor:'blue', marginTop: '20px', color: 'red'});
 /* @SUPER-------------------------------------------------------------------
  *
  * Напишите функцию которая будет преобразовывать CSS-свойство в
@@ -74,22 +246,51 @@ var myInitializedCarousel = Carousel.initialize({
  *
  * сделать через regExp
  *
- * */
+ * *///---------- РЕШЕНИЕ ЧЕРЕЗ МАССИВЫ-------------------------
+
+ function makeCamelCase(str){
+    str = str.toLowerCase();
+
+    if (str.includes('-')) {        //'background-color'
+        let arr = str.split('-');   //['background', 'color']
+
+        let capitalizedArr = arr.map((item, i) => {
+            if ( i > 0) {
+              let itemToArray =  item.split(''); //['c', 'o', 'l', 'o', 'r']
+              let firstLetter = itemToArray[0].toUpperCase();
+              itemToArray.splice(0, 1, firstLetter);
+              return itemToArray.join('');
+            } 
+            return item;
+        }); // end of map
+
+       str =  capitalizedArr.join('');
+    };
+
+    return str;
+}
+
+console.log(makeCamelCase('background-color'));
+console.log(makeCamelCase('margin-left'));
+console.log(makeCamelCase('flex-basis'));
+
+//-------------РЕШЕНИЕ ЧЕРЕЗ РЕГВЫРАЖЕНИЯ не работает----------------------
+/* function makeCamelCase(str){
+    str = str.toLowerCase();
+    let pattern = /-/;
+    if (str.match(pattern)) {        //'background-color'
+    	let arr = str.match(pattern);
+    	console.log(arr);
+    	str.
+    	let newString = str.replace(arr[0], arr)
+
+    };
+
+    return str;
+}
+
+console.log(makeCamelCase('background-color'));
+console.log(makeCamelCase('margin-left'));
+console.log(makeCamelCase('flex-basis'));*/
 
 
-/*--------------------------------------------------------------------------
-Нужно визуализировать keypad.html -> keypad.js
-Нужно визуализировать index.html -> contacts.js !!!
-Структура виртуализации:
- >------ Это 2 разных класса KeypadPage, ContactsPage  <-----
-innerHTML по максимуму
-https://aleksandra-maslennikova.github.io/telephone-book/keypad.html
-Сделайте чтобы при нажатии на кнопку цифра отобразилась
-в <span class="numbers">
-*/
-
-/*
-https://aleksandra-maslennikova.github.io/telephone-book/index.html
-По клику по заголовку таблицы,
-таблица сортировалась по соответствующему свойству
-*/
