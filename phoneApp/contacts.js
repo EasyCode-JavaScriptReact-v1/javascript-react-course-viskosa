@@ -245,6 +245,7 @@ const contactsPage = new ContactsPage();*/
 
 class ContactsPage2 {
   constructor(){
+    this.title = 'Contacts';
     this.tableCaptions = ['Name', 'Last name', 'Email'];
     this.people = [
       {
@@ -335,7 +336,7 @@ class ContactsPage2 {
   renderHeader(){
     return `<header class="header">
               <div class="container top-radius">
-                <h2>Contacts</h2>
+                <h2>${this.title}</h2>
               </div>
             </header>`;
   }
@@ -366,9 +367,11 @@ class ContactsPage2 {
     let tableBody = this.createTableBodyRow(this.people);
 
     return `<table class="table table-hover contacts">
+                <thead>
                     ${tableHead}
-                    ${tableBody}
-                </table>`;
+                </thead>
+                ${tableBody}
+            </table>`;
   }
 
   createTableHeadRow(arr){
@@ -396,7 +399,7 @@ class ContactsPage2 {
     return `<footer class="footer">
               <div class="container bottom-radius">
                 <nav class="main-nav">
-                  <a href="index.html" class="tab active">
+                  <a href="contacts.html" class="tab active">
                     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     <span class = "tab-text">Contacts</span>
                   </a>
@@ -421,8 +424,75 @@ class ContactsPage2 {
             </footer>`
   }
 
+  sortColumnsHandler() {
+    let parent = document.querySelector('thead');
+    parent.addEventListener('click', this.sortColumns.bind(this));
+  }
+
+  sortColumns() {
+    let target = event.target;
+
+    this.tableCaptions.forEach((item) => {
+      if (target.textContent == item) {
+          item = this.makeCamelCase(item);
+          this.sortUsers(item);
+          this.render();
+      }
+    })
+  }
+
+  makeCamelCase(str){
+    str = str.toLowerCase();
+
+    if (str.includes(' ')) {        //'last name'
+        let arr = str.split(' ');   //['last', 'name']
+
+        let capitalizedArr = arr.map((item, i) => {
+            if ( i > 0) {
+              let itemToArray =  item.split(''); //['n', 'a', 'm', 'e']
+              let firstLetter = itemToArray[0].toUpperCase();
+              itemToArray.splice(0, 1, firstLetter);
+              return itemToArray.join('');
+            } 
+            return item;
+        }); // end of map
+
+       str =  capitalizedArr.join('');
+    };
+
+    return str;
+  }
+
+  sortUsers(str) {
+     function compare(a, b){
+        if (isNaN(a[str])) {
+
+           if (a[str] > b[str]) {
+              return 1;
+           };
+           if (a[str] < b[str]) {
+              return -1;
+           };
+           if (a[str] == b[str]) {
+              return 0;
+           }
+
+        } else {
+           return (a[str] - b[str]);
+        }
+
+     }
+      //console.log(this.people.sort(compare))
+      return this.people.sort(compare);
+  }
+
+  setEvents() {
+    this.sortColumnsHandler();
+  }
+
   render(){
     document.body.innerHTML = this.renderHeader() + this.renderMain() + this.renderFooter();
+    this.setEvents();
   }
 
 }
