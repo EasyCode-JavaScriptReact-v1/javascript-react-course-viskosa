@@ -118,55 +118,66 @@ class Carousel {
 		let leftArrow = document.querySelector('.ec-left');
 		let rightArrow = document.querySelector('.ec-right');
 
-		let parent = document.querySelector('ul');
-		let slides = [...parent.children];
+		this.parent = document.querySelector('ul');
+		this.slides = [...this.parent.children];
 
-		let oneChildWidth = parseInt(getComputedStyle(slides[0]).width);
-		let parentWidth = oneChildWidth * slides.length;
-		parent.style.width = parentWidth + 'px';
+		this.oneChildWidth = parseInt(getComputedStyle(this.slides[0]).width);
+		let parentWidth = this.oneChildWidth * this.slides.length;
+		this.parent.style.width = parentWidth + 'px';
 
-		let activeSlide = parent.firstElementChild;
+		this.activeSlide = this.parent.firstElementChild;
 
 		let activeNumberSpan = document.querySelector('.number');
-		activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+		activeNumberSpan.innerHTML = this.activeSlide.firstElementChild.alt;
 
 
 		leftArrow.onclick = () => {
 
-			if (activeSlide.nextElementSibling) {
+			if (this.activeSlide.nextElementSibling) {
 
-				parent.style.transform += `translateX(-${oneChildWidth}px)`;
-				activeSlide = activeSlide.nextElementSibling;
-				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+				this.changeSlide(leftArrow);
 
 			} else {
-				parent.style.transform = `translateX(0px)`;
-				activeSlide = parent.firstElementChild;
-				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+
+				this.parent.style.transform = `translateX(0px)`;
+				this.activeSlide = this.parent.firstElementChild;
 			}
-			
+
+			activeNumberSpan.innerHTML = this.activeSlide.firstElementChild.alt;
 		}
 
 		rightArrow.onclick = () => {
 
-			if (activeSlide.previousElementSibling) {
-
-				parent.style.transform += `translateX(${oneChildWidth}px)`;
-				activeSlide = activeSlide.previousElementSibling;
-				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+			if (this.activeSlide.previousElementSibling) {
+				
+				this.changeSlide(rightArrow);
 
 			} else {
 
-				parent.style.transform = `translateX(-${oneChildWidth*(slides.length-1)}px)`;
-				activeSlide = parent.lastElementChild;
-				activeNumberSpan.innerHTML = activeSlide.firstElementChild.alt;
+				this.parent.style.transform = `translateX(-${this.oneChildWidth*(this.slides.length-1)}px)`;
+				this.activeSlide = this.parent.lastElementChild;
+
 			}
 
+			activeNumberSpan.innerHTML = this.activeSlide.firstElementChild.alt;
+		}
+
+	}
+
+	changeSlide(arrow){
+		if (arrow.classList.contains('ec-left')) {
+			this.parent.style.transform += `translateX(-${this.oneChildWidth}px)`;
+			this.activeSlide = this.activeSlide.nextElementSibling;
+		} else {
+			this.parent.style.transform += `translateX(${this.oneChildWidth}px)`;
+			this.activeSlide = this.activeSlide.previousElementSibling;
 		}
 
 	}
 
 }
+
+
 //let myCarousel = new Carousel;
 var myInitializedCarousel = Carousel.initialize(
 	//{
