@@ -3,11 +3,38 @@
 TASK 0
 Вам дано предложение, верните массив из слов,
 которые длинее чем средняя длина всех слов.
-Слова разделены пробелами, если в предложении запятые,они должны быть пропущены
-solution(["This is a sample string"]) expected ["This" "sample" "string"]
-solution(["Some another sample"]) expected ["another" "sample"]
-solution(["Do, do, do, do... do it!"]) expected []
-*/
+Слова разделены пробелами, если в предложении запятые,они должны быть пропущены*/
+function solution(arr){
+	let wordsArray = arr[0].split(' ');
+	let pattern = /\W/g;
+	let onlyWords = [];
+
+	let itemsLength = wordsArray.reduce((newItem, item) => {
+
+		if (item.search(pattern) > -1){
+			item = item.replace(pattern, '');
+		}
+
+		onlyWords.push(item);
+		return newItem + item.length;
+
+	}, 0);
+
+	let averageLength = Math.floor(itemsLength / wordsArray.length);
+
+	let result = onlyWords.filter((item) => {
+		if (item.length > averageLength) {
+			return item;
+		}
+	})
+
+	return result;
+}
+
+console.log(solution(["This is a sample string"])) //expected ["This" "sample" "string"]
+console.log(solution(["Some another sample"])) //expected ["another" "sample"]
+console.log(solution(["Do, do, do, do... do it!"])) //expected []
+
 
 /*
 Подготовка к занятию в пятницу.-----------DONE-------------------------------------------
@@ -41,20 +68,16 @@ Linux:
 let table = document.querySelector('table');
 
 table.addEventListener('click', makeItRed);
-
+//let coloredTD = null;
 function makeItRed(){
 	let target = event && event.target;
 
 	if (target.tagName == 'TD') {
 		target.textContent = ' ';
 
-		//this.coloredTD = null;
-
 		let rowsChildren = [...target.parentNode.parentNode.children];
-
 		let clickedRow = target.parentNode;
-
-
+		
 		rowsChildren.forEach((row, j, rowsArr) => {
 			if(clickedRow == row){
 
@@ -69,15 +92,14 @@ function makeItRed(){
 							let clickedIndex = i+1;
 							let shouldBeColoredIndex = tdsArr.length - clickedIndex;
 							
-							//if (this.coloredTD) {
-							//	console.log(1);
-							//	this.coloredTD.removeAttribute('style');
-
+							//if (coloredTD) {
+							//	coloredTD.removeAttribute('style');
+								//coloredTD = null;
 							//};
 
 							[...rowsArr[shouldBeColoredRow].children][shouldBeColoredIndex].style.backgroundColor = 'red';
 
-							//this.coloredTD = [...rowsArr[shouldBeColoredRow].children][shouldBeColoredIndex];
+							//coloredTD = [...rowsArr[shouldBeColoredRow].children][shouldBeColoredIndex];
 
 							return;
 						}
@@ -98,3 +120,39 @@ function makeItRed(){
 ресайз одного блока.
 Подсказка - событие необходимо повесить на доп. элемент .resize
 */
+
+class Resize {
+	constructor(){
+		this.parent = document.querySelector('section');
+		this.parent.addEventListener('mousedown', this.handlerMouseDown.bind(this));
+		window.addEventListener('mouseup', this.handlerMouseUp.bind(this));
+	}
+
+	handlerMouseDown(e){
+		this.target = e.target;
+		this.startMouseX = e.clientX;
+		//this.initialWidth = this.target.parentNode.offsetWidth;
+
+		if (this.target && this.target.classList.contains('resize')) {
+			window.addEventListener('mousemove', this.handlerMouseMove.bind(this));
+		}
+	}
+
+	handlerMouseMove(e) {
+		//let startMouseX = e.clientX;
+		let endMouseX = e.clientX; // собирает координаты мыши все время, пока происходит движение
+
+		//if (endMouseX > this.startMouseX) {
+			this.target.parentNode.style.cssText = `flex-basis:${endMouseX-this.startMouseX}px;`;
+		//}
+	}
+
+	handlerMouseUp(){
+		console.log('щас сниму');
+		window.removeEventListener('mousemove', this.handlerMouseMove);
+		console.log('снял')
+	}
+
+}
+
+let newResize = new Resize();
