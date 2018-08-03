@@ -66,9 +66,9 @@ Linux:
                 []|[]|[x]
 */
 let table = document.querySelector('table');
-
 table.addEventListener('click', makeItRed);
-//let coloredTD = null;
+//let coloredTD;
+
 function makeItRed(){
 	let target = event && event.target;
 
@@ -91,20 +91,13 @@ function makeItRed(){
 				
 							let clickedIndex = i+1;
 							let shouldBeColoredIndex = tdsArr.length - clickedIndex;
-							
-							//if (coloredTD) {
-							//	coloredTD.removeAttribute('style');
-								//coloredTD = null;
-							//};
-
-							[...rowsArr[shouldBeColoredRow].children][shouldBeColoredIndex].style.backgroundColor = 'red';
-
-							//coloredTD = [...rowsArr[shouldBeColoredRow].children][shouldBeColoredIndex];
+							let shouldBeColoredTD = [...rowsArr[shouldBeColoredRow].children][shouldBeColoredIndex];
+									
+							toPaint(shouldBeColoredTD);
 
 							return;
 						}
 					})
-
 			} // end of if
 
 		}) // end of rowsChildren.forEach
@@ -112,6 +105,16 @@ function makeItRed(){
 	} // end of if
 
 } // end of function
+
+function toPaint(elem){ //I want to remove bg color from previous colored element, but it works in strange way
+	//if (coloredTD) {
+	//	coloredTD.classList.remove('painted');
+	//}
+
+	//coloredTD = elem;
+	//coloredTD.classList.add('painted');
+	elem.classList.add('painted');
+}
 
 // @SUPER-FrontEnd----------------------------------------------------------------
 /*
