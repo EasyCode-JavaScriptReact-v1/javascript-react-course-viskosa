@@ -13,108 +13,114 @@
 //По клику по заголовку таблицы,
 //таблица сортировалась по соответствующему свойству
 
+//добавить функционал для удаления номера
+//1. keypad - сделать чтобы номер можно было набрать с клавиатуры (!)
+//2. Формат номера должен быть таким (099)-17-38-170
+
 class KeypadPage {
   constructor(){
   	this.title = 'Keypad';
-    this.buttonsValues = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#', ''];
     this.render();
-    //this.buttonsHandler();
   }
-
-  renderHeader(){
-    return `<header class="header">
-              <div class="container top-radius">
-                <h2>${this.title}</h2>
-              </div>
-            </header>`;
-  }
-
-  renderMain(){
-    let buttons = this.renderButtons();
-
-    return `<main>
-              <div class="container">
-              	<div class="number">
-					<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-					<span class="numbers"></span>
-					<span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
-                </div>
-                <div class="keypad-holder">
-                	${buttons}
-                </div>
-              </div>
-            </main>`;
-  }
-
-  renderButtons(){
-  	let buttonsArray = this.buttonsValues.map((item, i, arr) => {
-
-		if ( i == arr.length - 1) {
-			return `<button class="key">
-						<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
-		  			${item}
-		  		</button>`;
-		};
-
-  		return `<button class="key">${item}</button>`;
-  	});
-
-  	return buttonsArray.join('');
-  }
-
 
   buttonsHandler(){
-	let buttonsParent = document.querySelector('.keypad-holder');
+  	let buttonsParent = document.querySelector('main');
+    let placeToInsertNumbers = document.querySelector('.numbers');
 
-	buttonsParent.addEventListener('click', this.clickHandler)
-
+  	buttonsParent.addEventListener('click', this.clickHandler.bind(this, placeToInsertNumbers));
+    window.addEventListener('keypress', this.keyHandler.bind(this, placeToInsertNumbers));
   }
 
+  keyHandler(display, e) {
+    let pattern = /[0-9]/;    //дописать регвыражение для #*-()
+    if (e.ctrlKey || e.altKey || e.metaKey) return;
+    var code = e.key;
 
-  clickHandler(e){
-	let target = e.target;
-	let placeToInsertNumbers = document.querySelector('.numbers');
+    if (code == null) return;
 
-	if (target.classList.contains('key')) {
-	   	placeToInsertNumbers.innerHTML += target.textContent;
-	}
+    if (pattern.test(code)) {
+      display.innerHTML += code;
+    }
+    return;
   }
 
+  clickHandler(display, e){
+	  let target = e.target; 
+    if (!target) return;
 
-  renderFooter(){
-    return `<footer class="footer">
-              <div class="container bottom-radius">
-                <nav class="main-nav">
-                  <a href="contacts.html" class="tab active">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                    <span class = "tab-text">Contacts</span>
-                  </a>
-                  <a href="keypad.html" class="tab">
-                    <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
-                    <span class = "tab-text">Keypad</span>
-                  </a>
-                  <a href="edit-contact.html" class="tab">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                    <span class = "tab-text">Edit contact</span>
-                  </a>
-                  <a href="user.html" class="tab">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    <span class = "tab-text">User</span>
-                  </a>
-                  <a href="add-user.html" class="tab">
-                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                    <span class = "tab-text">Add user</span>
-                  </a>
-                </nav>
-              </div>
-            </footer>`
+  	if (target.classList.contains('key')) {
+  	   	display.innerHTML += target.textContent;
+  	}
+
+    if (target.classList.contains('glyphicon-circle-arrow-left')) {
+      let insertedNumbersArr = display.innerHTML.split('');
+      if (insertedNumbersArr.length > 0) {
+        let numberWithoutLast = insertedNumbersArr.slice(0,-1).join('');
+        display.innerHTML = numberWithoutLast;
+      }
+    }
   }
+
+  renderLink(options) {
+    let {href, glyphicon, text, active} = options;
+    let activeClass = active ? 'active' : '';
+
+    return `<a href="${href}.html" class="tab ${activeClass}">
+              <span class="glyphicon glyphicon-${glyphicon}" aria-hidden="true"></span>
+              <span class = "tab-text">${text}</span>
+            </a> `
+  }
+
   setEvents(){
   	this.buttonsHandler();
   }
 
   render(){
-    document.body.innerHTML = this.renderHeader() + this.renderMain() + this.renderFooter();
+    let shouldBeRendered = `
+    <header class="header">
+      <div class="container top-radius">
+        <h2>${this.title}</h2>
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <div class="number">
+          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+          <span class="numbers"></span>
+          <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+        </div>
+        <div class="keypad-holder">
+          <button class="key">1</button>
+          <button class="key">2</button>
+          <button class="key">3</button>
+          <button class="key">4</button>
+          <button class="key">5</button>
+          <button class="key">6</button>
+          <button class="key">7</button>
+          <button class="key">8</button>
+          <button class="key">9</button>
+          <button class="key">*</button> 
+          <button class="key">0</button>
+          <button class="key">#</button>                                   
+          <button class="key"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container bottom-radius">
+        <nav class="main-nav">
+          ${this.renderLink({href:'contacts', glyphicon:'search', text:'Contacts', active: false})}
+          ${this.renderLink({href:'keypad', glyphicon:'th', text:'Keypad', active: true})}
+          ${this.renderLink({href:'edit-contact', glyphicon:'pencil', text:'Edit contact', active: false})}
+          ${this.renderLink({href:'user', glyphicon:'user', text:'User', active: false})}
+          ${this.renderLink({href:'add-user', glyphicon:'plus', text:'Add user', active: false})}                                                                                          
+        </nav>
+      </div>
+    </footer>`;
+
+    document.body.innerHTML = shouldBeRendered;
     this.setEvents();
   }
 }

@@ -51,6 +51,10 @@ h3 {
   margin: 0;
 }
 
+input {
+  height: 20px;
+}
+
 .container {
   width: 400px;
   background: #ccc;
