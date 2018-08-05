@@ -11,13 +11,27 @@
  * */
 
 const solution = arr => {
+	let leader = arr[arr.length-1];
+
+	return arr.reduceRight((newItem, item, i, arr) => {
+		if (i == arr.length-1) {
+			newItem.push(item);
+		};
+
+		if (item > leader) {
+			leader = item;
+			newItem.push(item);
+		}
+
+		return newItem;
+	},[]).reverse();
 };
 
-//console.log(solution([16, 17, 4, 3, 5, 2])); // === [17, 5, 2]
-//console.log(solution([4, 3, 7, 12, 6, 67, 5, 45, 34, 35, 2, 8])); // [67, 45, 35, 8]
-//console.log(solution([12, 10, 12, 8, 7, 6])); // [12, 8, 7, 6]
-//console.log(solution([1, 2, 3, 4, 5, 4])); // [5, 4]
-//console.log(solution([12, 12, 12])); // [5, 4]
+console.log(solution([16, 17, 4, 3, 5, 2])); // === [17, 5, 2]
+console.log(solution([4, 3, 7, 12, 6, 67, 5, 45, 34, 35, 2, 8])); // [67, 45, 35, 8]
+console.log(solution([12, 10, 12, 8, 7, 6])); // [12, 8, 7, 6]
+console.log(solution([1, 2, 3, 4, 5, 4])); // [5, 4]
+console.log(solution([12, 12, 12])); // [5, 4]
 
 /* TASK 1--------------------------------------------------------------
  * Сделайте карусель.
@@ -285,23 +299,18 @@ console.log(makeCamelCase('background-color'));
 console.log(makeCamelCase('margin-left'));
 console.log(makeCamelCase('flex-basis'));
 
-//-------------РЕШЕНИЕ ЧЕРЕЗ РЕГВЫРАЖЕНИЯ не работает----------------------
-/* function makeCamelCase(str){
-    str = str.toLowerCase();
-    let pattern = /-/;
-    if (str.match(pattern)) {        //'background-color'
-    	let arr = str.match(pattern);
-    	console.log(arr);
-    	str.
-    	let newString = str.replace(arr[0], arr)
+//-------------РЕШЕНИЕ ЧЕРЕЗ РЕГВЫРАЖЕНИЯ ----------------------
 
-    };
+ function makeCamelCase(str){
+	let pattern = /-[a-z]/;
+	let index = str.search(pattern); //вернет позицию, на которой находится совпадение
 
-    return str;
+	return str.replace(pattern, str[index + 1].toUpperCase());
+
 }
 
 console.log(makeCamelCase('background-color'));
 console.log(makeCamelCase('margin-left'));
-console.log(makeCamelCase('flex-basis'));*/
+console.log(makeCamelCase('flex-basis'));
 
 
