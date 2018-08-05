@@ -128,6 +128,7 @@ class Resize {
 	constructor(){
 		this.parent = document.querySelector('section');
 		this.parent.addEventListener('mousedown', this.handlerMouseDown.bind(this));
+		this.handlerMouseMove = this.handlerMouseMove.bind(this);
 		window.addEventListener('mouseup', this.handlerMouseUp.bind(this));
 	}
 
@@ -137,7 +138,7 @@ class Resize {
 		//this.initialWidth = this.target.parentNode.offsetWidth;
 
 		if (this.target && this.target.classList.contains('resize')) {
-			window.addEventListener('mousemove', this.handlerMouseMove.bind(this));
+			window.addEventListener('mousemove', this.handlerMouseMove);
 		}
 	}
 
@@ -151,9 +152,7 @@ class Resize {
 	}
 
 	handlerMouseUp(){
-		console.log('щас сниму');
 		window.removeEventListener('mousemove', this.handlerMouseMove);
-		console.log('снял')
 	}
 
 }
