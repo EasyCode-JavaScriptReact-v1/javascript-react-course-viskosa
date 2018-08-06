@@ -1,18 +1,32 @@
+alert('Hello from main.js!!!');
 /* task 0
 Даны строки разделенные различным образом,
-верните строки разделенные / или _, в нижнем регистре
-solution("ActiveModel::Errors") => active_model/errors"
-solution("HelloHowAreYou") => "hello_how_are_you"
-solution("MyNAMEIsBOND-JamesBond") => my_name_is_bond_james_bond"
-solution("MAINCompany::BEST-MAINUser") => "main_company/best_main_user"
-*/
+верните строки разделенные / или _, в нижнем регистре*/
+function solution(str){
+	let pattern1 = /::/g;
+	let pattern2 = /([a-z])([A-Z])/g;
+	let pattern3 = /-/;
 
+	let step_1 = str.replace(pattern1, '/');
+	let step_2 = step_1.replace(pattern2, "$1_$2");
+	let step_3 = step_2.replace(pattern3, '_').toLowerCase();
+	//let step_4 = step_3.replace(/[A-Z]/, )
+	return step_3;
+}
+
+console.log(solution("ActiveModel::Errors")) //=> active_model/errors"
+console.log(solution("HelloHowAreYou")) //=> "hello_how_are_you"
+console.log(solution("MyNAMEIsBOND-JamesBond"))//=> my_name_is_bond_james_bond"
+console.log(solution("MAINCompany::BEST-MAINUser"))//=> "main_company/best_main_user"
+
+//---------------РЕШЕНИЕ В ФАЙЛЕ SERVER.JS-----------------------------------
 /* TASK 0.5
   ГОТОВО: Добавить кота в ваш КОД в Node.js !!
   КОТА ОСТАВИТЬ
-  Добавить проверку на существование файла
-*/
+  Добавить проверку на существование файла*/
 
+
+//---------------РЕШЕНИЕ В ВЕТКЕ phoneApp-----------------------------------------
 /* TASK 1
 По приложению phone-book;
 1. Для каждой страницы у вас должен быть класс с одноименным названием

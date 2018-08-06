@@ -19,7 +19,8 @@ const fs = require('fs');
 //------------------------------------------------------
 //отобразить на локалхост 3000 страничку index.html
 //описываем все сценарии. Если он выполнился - отдаем данные и закрываем соединение
-http
+//решение в лоб--------------------
+/*http
 	.createServer((request, response) => {	//создаем сервер
 		const index = fs.readFileSync('./index.html');
 		console.log(request.url);
@@ -39,21 +40,43 @@ http
 	.listen(3000, err => {	// запускаем сервер
 		console.log('server started on 3000');
 	})
+*/
+//----------с упрощением-----------------------
 
-//----------пытались упростить, но не работает-----------------------
-/*http
+/* ГОТОВО: Добавить кота в ваш КОД в Node.js !!
+  КОТА ОСТАВИТЬ
+  Добавить проверку на существование файла*/
+
+http
 	.createServer((request, response) => {
-		const index = fs.readFileSync('./index.html');//сначала читаем файл index.html
-		console.log(request.url);
+		//const index = fs.readFileSync('./index.html');//сначала читаем файл index.html
+		let url = request.url;
+		if (url == '/') {
+			url = '/index.html';
+		}
+		console.log(url);
 
-		if (!fs.statSync(`.${request.url}`).isDirectory()) {
+		try {
+
+			let file = fs.readFileSync(`.${url}`);
+			response.end(file);
+
+		} catch (err) {
+			if (err.code == 'ENOENT') {
+				console.log(`${url} does not exist`)
+			} else {
+				console.log('some other error');
+			}
+		}
+
+	/*if (!fs.statSync(`.${request.url}`).isDirectory()) {
 			const file = fs.readFileSync(`.${request.url}`);
 			response.end(file);
 			return;
-		}
+		}*/
 
 		response.end('NOT FOUND', 404);//закрой все соединение и отправь в него файл index
 	})
 	.listen(3000, err => {
 		console.log('server started on 3000');
-	})*/
+	})
