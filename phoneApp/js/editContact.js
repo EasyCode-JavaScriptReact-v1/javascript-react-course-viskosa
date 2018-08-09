@@ -3,9 +3,9 @@
 //- изменять backgroundColor
 
 class EditContact {
-  constructor(){
+  constructor(globalState){
+    this.state = globalState; //стал равен this.state-у со страницы App.js
   	this.phoneNumber = '+38 (063) 733 44 55';
-    this.render();
   }
 
   renderInfo(value) {
@@ -55,8 +55,7 @@ class EditContact {
   }
 
   render() {
-  	let shouldBeRendered = `
-  		<header class="header">
+  	return `<header class="header">
 			<div class="container top-radius">
 				<nav class="user-top-line">
 					<a href="user.html">Cansel</a>
@@ -95,23 +94,8 @@ class EditContact {
 					</div>
 				</div>
 			</div>
-		</main>
+		</main>`
 
-		<footer class="footer">
-	      <div class="container bottom-radius">
-	        <nav class="main-nav">
-	          ${this.renderLink({href:'contacts', glyphicon:'search', text:'Contacts', active: false})}
-	          ${this.renderLink({href:'keypad', glyphicon:'th', text:'Keypad', active: false})}
-	          ${this.renderLink({href:'edit-contact', glyphicon:'pencil', text:'Edit contact', active: true})}
-	          ${this.renderLink({href:'user', glyphicon:'user', text:'User', active: false})}
-	          ${this.renderLink({href:'add-user', glyphicon:'plus', text:'Add user', active: false})}                                                                                          
-	        </nav>
-	      </div>
-	    </footer>`;
-
-  	document.body.innerHTML = shouldBeRendered;
-    this.setEvents();
+    /*this.setEvents();*/
   }
 }
-
-const editContact = new EditContact;

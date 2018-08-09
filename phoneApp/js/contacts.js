@@ -6,93 +6,11 @@
 'use strict';
 
 class ContactsPage {
-  constructor(){
+  constructor(globalState){
+    this.state = globalState; //стал равен this.state-у со страницы App.js
+
     this.title = 'Contacts';
     this.tableCaptions = ['Name', 'Last name', 'Email'];
-    this.people = [
-      {
-        name: 'Иван',
-        lastName: 'Петров',
-        email: 'IvanPetrov@ec.ua'
-      },
-        {
-        name: 'Сергей',
-        lastName: 'Сергеев',
-        email: 'SergeiSergeev@ec.ua'
-      },
-        {
-        name: 'Иван',
-        lastName: 'Иванов',
-        email: 'IvanIvanov@ec.ua'
-      },
-        {
-        name: 'Александр',
-        lastName: 'Александров',
-        email: 'AlexAlex@ec.ua'
-      },
-        {
-        name: 'Алекс',
-        lastName: 'Смирнов',
-        email: 'AlexSmirnov@ec.ua'
-      },
-        {
-        name: 'Сергей',
-        lastName: 'Волков',
-        email: 'VolkovSergey@ec.ua'
-      },
-        {
-        name: 'Мария',
-        lastName: 'Шарапова',
-        email: 'MariyaSharapova@ec.ua'
-      },
-        {
-        name: 'Александр',
-        lastName: 'Винник',
-        email: 'AlexVinnik@ec.ua'
-      },
-        {
-        name: 'Дарий',
-        lastName: 'Смирнов',
-        email: 'DariySmirnov@ec.ua'
-      },
-        {
-        name: 'Елена',
-        lastName: 'Лещенко',
-        email: 'ElenaLeshenko@ec.ua'
-      },
-        {
-        name: 'Ольга',
-        lastName: 'Новикова',
-        email: 'OlgaNovikova@ec.ua'
-      },
-        {
-        name: 'Наталья',
-        lastName: 'Шемякина',
-        email: 'ShemyakinaN@ec.ua'
-      },
-        {
-        name: 'Анна',
-        lastName: 'Донцова',
-        email: 'AnnaDontsova@ec.ua'
-      },
-        {
-        name: 'Влад',
-        lastName: 'Яма',
-        email: 'VladYama@ec.ua'
-      },
-        {
-        name: 'Кира',
-        lastName: 'Воробьева',
-        email: 'Kira1990@ec.ua'
-      },
-        {
-        name: 'Виктор',
-        lastName: 'Кривенко',
-        email: 'ViktorKriv@ec.ua'
-      }
-    ];
-
-    this.render();
   }
 
   reRenderTable(arr){
@@ -123,7 +41,7 @@ class ContactsPage {
 
   createTableBodyRow(arr){
     if (!arr) {
-      arr = this.people;
+      arr = this.state.people;
     };
 
     return arr.map(item => {
@@ -193,19 +111,10 @@ class ContactsPage {
         }
 
      }
-      //console.log(this.people.sort(compare))
-      return this.people.sort(compare);
+      //console.log(this.state.people.sort(compare))
+      return this.state.people.sort(compare);
   }
 
-  renderLink(options) {
-    let {href, glyphicon, text, active} = options;
-    let activeClass = active ? 'active' : '';
-
-    return `<a href="${href}.html" class="tab ${activeClass}">
-              <span class="glyphicon glyphicon-${glyphicon}" aria-hidden="true"></span>
-              <span class = "tab-text">${text}</span>
-            </a> `
-  }
 
   searchUserHandler() {
     this.searchField = document.querySelector('#search');
@@ -215,7 +124,7 @@ class ContactsPage {
   filterUser() {
     let value = this.searchField.value.toLowerCase();
 
-    let filteredUsers = this.people.filter((item) => { //{name:'ghjk', phone:'37686'}
+    let filteredUsers = this.state.people.filter((item) => { //{name:'ghjk', phone:'37686'}
 
         if (item.name.toLowerCase().includes(value)) {
           return item;
@@ -229,14 +138,13 @@ class ContactsPage {
 
   }
 
-
   setEvents() {
     this.sortColumnsHandler();
     this.searchUserHandler();
   }
 
   render(users){
-    let shouldBeRendered = `
+    return `
       <header class="header">
         <div class="container top-radius">
           <h2>${this.title}</h2>
@@ -262,24 +170,9 @@ class ContactsPage {
           </table>
 
         </div>
-      </main>
+      </main>`;
 
-      <footer class="footer">
-        <div class="container bottom-radius">
-          <nav class="main-nav">
-            ${this.renderLink({href:'contacts', glyphicon:'search', text:'Contacts', active: true})}
-            ${this.renderLink({href:'keypad', glyphicon:'th', text:'Keypad', active: false})}
-            ${this.renderLink({href:'edit-contact', glyphicon:'pencil', text:'Edit contact', active: false})}
-            ${this.renderLink({href:'user', glyphicon:'user', text:'User', active: false})}
-            ${this.renderLink({href:'add-user', glyphicon:'plus', text:'Add user', active: false})}                                                                                          
-          </nav>
-        </div>
-      </footer>`;
-
-    document.body.innerHTML = shouldBeRendered;
-    this.setEvents();
+   // this.setEvents();
   }
 }
 
-
-const contactsPage = new ContactsPage();

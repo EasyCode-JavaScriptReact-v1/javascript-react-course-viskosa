@@ -18,9 +18,8 @@
 //2. Формат номера должен быть таким (099)-17-38-170
 
 class KeypadPage {
-  constructor(){
-  	this.title = 'Keypad';
-    this.render();
+  constructor(globalState){
+    this.state = globalState; //стал равен this.state-у со страницы App.js
   }
 
   buttonsHandler(){
@@ -76,8 +75,7 @@ class KeypadPage {
   }
 
   render(){
-    let shouldBeRendered = `
-    <header class="header">
+    return `<header class="header">
       <div class="container top-radius">
         <h2>${this.title}</h2>
       </div>
@@ -106,24 +104,9 @@ class KeypadPage {
           <button class="key"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></button>
         </div>
       </div>
-    </main>
-
-    <footer class="footer">
-      <div class="container bottom-radius">
-        <nav class="main-nav">
-          ${this.renderLink({href:'contacts', glyphicon:'search', text:'Contacts', active: false})}
-          ${this.renderLink({href:'keypad', glyphicon:'th', text:'Keypad', active: true})}
-          ${this.renderLink({href:'edit-contact', glyphicon:'pencil', text:'Edit contact', active: false})}
-          ${this.renderLink({href:'user', glyphicon:'user', text:'User', active: false})}
-          ${this.renderLink({href:'add-user', glyphicon:'plus', text:'Add user', active: false})}                                                                                          
-        </nav>
-      </div>
-    </footer>`;
-
-    document.body.innerHTML = shouldBeRendered;
-    this.setEvents();
+    </main>`
   }
 }
 
-const keypad = new KeypadPage();
+//const keypad = new KeypadPage();
 
