@@ -18,20 +18,27 @@
 //2. Формат номера должен быть таким (099)-17-38-170
 
 class KeypadPage {
-  constructor(globalState){
+  constructor(globalState) {
     this.state = globalState; //стал равен this.state-у со страницы App.js
+    this.title = 'Keypad';
   }
 
-  buttonsHandler(){
-  	let buttonsParent = document.querySelector('main');
-    let placeToInsertNumbers = document.querySelector('.numbers');
+  buttonsHandler() {
+    let buttonsParent = document.querySelector("main");
+    let placeToInsertNumbers = document.querySelector(".numbers");
 
-  	buttonsParent.addEventListener('click', this.clickHandler.bind(this, placeToInsertNumbers));
-    window.addEventListener('keypress', this.keyHandler.bind(this, placeToInsertNumbers));
+    buttonsParent.addEventListener(
+      "click",
+      this.clickHandler.bind(this, placeToInsertNumbers)
+    );
+    window.addEventListener(
+      "keypress",
+      this.keyHandler.bind(this, placeToInsertNumbers)
+    );
   }
 
   keyHandler(display, e) {
-    let pattern = /[0-9]/;    //дописать регвыражение для #*-()
+    let pattern = /[0-9]/; //дописать регвыражение для #*-()
     if (e.ctrlKey || e.altKey || e.metaKey) return;
     var code = e.key;
 
@@ -43,38 +50,28 @@ class KeypadPage {
     return;
   }
 
-  clickHandler(display, e){
-	  let target = e.target; 
+  clickHandler(display, e) {
+    let target = e.target;
     if (!target) return;
 
-  	if (target.classList.contains('key')) {
-  	   	display.innerHTML += target.textContent;
-  	}
+    if (target.classList.contains("key")) {
+      display.innerHTML += target.textContent;
+    }
 
-    if (target.classList.contains('glyphicon-circle-arrow-left')) {
-      let insertedNumbersArr = display.innerHTML.split('');
+    if (target.classList.contains("glyphicon-circle-arrow-left")) {
+      let insertedNumbersArr = display.innerHTML.split("");
       if (insertedNumbersArr.length > 0) {
-        let numberWithoutLast = insertedNumbersArr.slice(0,-1).join('');
+        let numberWithoutLast = insertedNumbersArr.slice(0, -1).join("");
         display.innerHTML = numberWithoutLast;
       }
     }
   }
 
-  renderLink(options) {
-    let {href, glyphicon, text, active} = options;
-    let activeClass = active ? 'active' : '';
-
-    return `<a href="${href}.html" class="tab ${activeClass}">
-              <span class="glyphicon glyphicon-${glyphicon}" aria-hidden="true"></span>
-              <span class = "tab-text">${text}</span>
-            </a> `
+  setHandlers() {
+    this.buttonsHandler();
   }
 
-  setEvents(){
-  	this.buttonsHandler();
-  }
-
-  render(){
+  render() {
     return `<header class="header">
       <div class="container top-radius">
         <h2>${this.title}</h2>
@@ -104,9 +101,7 @@ class KeypadPage {
           <button class="key"><span class="glyphicon glyphicon-earphone" aria-hidden="true"></span></button>
         </div>
       </div>
-    </main>`
+    </main>`;
   }
 }
-
-//const keypad = new KeypadPage();
 

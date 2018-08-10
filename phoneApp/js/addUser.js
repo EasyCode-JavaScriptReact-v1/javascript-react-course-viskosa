@@ -5,56 +5,48 @@
 //При удалении всех символов отобразить снова весь список
 
 class AddUser {
-  constructor(globalState){
-    this.state = globalState; //стал равен this.state-у со страницы App.js
-  }
+	constructor(globalState) {
+		this.state = globalState; //стал равен this.state-у со страницы App.js
+	}
 
-  buttonsHandler(){
-  	let buttonsParent = document.querySelector('main');
-  	buttonsParent.addEventListener('click', this.clickHandler.bind(this));
-  }
+	buttonsHandler() {
+		let buttonsParent = document.querySelector("main");
+		buttonsParent.addEventListener("click", this.clickHandler.bind(this));
+	}
 
-  clickHandler(e) {
+	clickHandler(e) {
+		let target = e && e.target;
+		if (!target) return;
 
-  	let target = e && e.target;
-  	if (!target) return;
+		let active =
+			e &&
+			e.target &&
+			(e.target.closest("button") ||
+				e.target.classList.contains("add-btn"));
+		if (active == false) return;
 
-  	let active = e && e.target && (e.target.closest('button') || e.target.classList.contains('add-btn'));
- 	if (active == false) return;
+		let input = active.querySelector("input");
+		input.style.backgroundColor = "lightgreen";
 
- 	let input = active.querySelector('input');
- 	input.style.backgroundColor = 'lightgreen';
+		input.addEventListener("blur", () => {
+			input.removeAttribute("style");
+		});
+	}
 
- 	input.addEventListener('blur', () => {
- 		input.removeAttribute('style');
- 	})
-
-  }
-
-  renderInfo(value) {
-  	return `<div class="edit-field">
+	renderInfo(value) {
+		return `<div class="edit-field">
 				<button href="#" class="add-btn"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 					<input type="text" placeholder="${value}"></input>
 				</button>
 			</div>`;
-  }
+	}
 
-  renderLink(options) {
-    let {href, glyphicon, text, active} = options;
-    let activeClass = active ? 'active' : '';
+	setHandlers() {
+		this.buttonsHandler();
+	}
 
-    return `<a href="${href}.html" class="tab ${activeClass}">
-              <span class="glyphicon glyphicon-${glyphicon}" aria-hidden="true"></span>
-              <span class = "tab-text">${text}</span>
-            </a> `
-  }
-
-  setEvents(){
-  	this.buttonsHandler();
-  }
-  
-  render() {
-  	return `<header class="header">
+	render() {
+		return `<header class="header">
 			<div class="container top-radius">
 				<nav class="user-top-line">
 					<a href="user.html">Cansel</a>
@@ -73,28 +65,26 @@ class AddUser {
 						</button>
 					</div>
 					<div class="main-info-holder">
-						${this.renderInfo('First Name')}
-						${this.renderInfo('Last Name')}
-						${this.renderInfo('Company')}
+						${this.renderInfo("First Name")}
+						${this.renderInfo("Last Name")}
+						${this.renderInfo("Company")}
 					</div>
 				</div>
 				<div class="scroll-holder">
 					<div class="edit-info">
-						${this.renderInfo('add mobile phone')}
-						${this.renderInfo('add home phone')}
-						${this.renderInfo('add email')}
-						${this.renderInfo('add address')}
-						${this.renderInfo('add birthday')}
-						${this.renderInfo('add social profile')}
-						${this.renderInfo('add field')}
+						${this.renderInfo("add mobile phone")}
+						${this.renderInfo("add home phone")}
+						${this.renderInfo("add email")}
+						${this.renderInfo("add address")}
+						${this.renderInfo("add birthday")}
+						${this.renderInfo("add social profile")}
+						${this.renderInfo("add field")}
 						<div class="edit-field">
 							<button href="#" class="delete-contact">delete contact</button>
 						</div>
 					</div>
 				</div>
 			</div>
-		</main>`
-
-    /*this.setEvents();*/
-  }
+		</main>`;
+	}
 }

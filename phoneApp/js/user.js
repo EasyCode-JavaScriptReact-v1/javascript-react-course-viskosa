@@ -1,31 +1,25 @@
 class User {
-  	constructor(globalState){
-    this.state = globalState; //стал равен this.state-у со страницы App.js
-  	this.mobileNumber = '+38 (093) 989 89 89';
-  	this.homeNumber = '+38 (067) 989 89 89';  	
-  }
+	constructor(globalState) {
+		this.state = globalState; //стал равен this.state-у со страницы App.js
+		this.mobileNumber = "+38 (093) 989 89 89";
+		this.homeNumber = "+38 (067) 989 89 89";
+	}
 
-  renderOptions(options) {
-  	let {glyphicon, text} = options;
+	renderOptions(options) {
+		let { glyphicon, text } = options;
 
-  	return `<div class="${text}">
+		return `<div class="${text}">
 				<div class="options-icon"><span class="icon glyphicon glyphicon-${glyphicon}" aria-hidden="true"></span></div>
 				<span class="options-text">${text}</span>
 			</div>`;
-  }
+	}
 
-  renderLink(options) {
-    let {href, glyphicon, text, active} = options;
-    let activeClass = active ? 'active' : '';
+	setHandlers() {
 
-    return `<a href="${href}.html" class="tab ${activeClass}">
-              <span class="glyphicon glyphicon-${glyphicon}" aria-hidden="true"></span>
-              <span class = "tab-text">${text}</span>
-            </a> `;
-  }
+	}
 
-  render() {
-  	return `<header class="header">
+	render() {
+		return `<header class="header">
 				<div class="container top-radius">
 					<div class="user-top-line">
 						<a href="index.html">
@@ -41,10 +35,10 @@ class User {
 					<img src="images/user-face.png" alt="#" class=" user-img img-circle center-block">
 					<div class="user-name">User Name</div>
 					<div class="options-line">
-						${this.renderOptions({glyphicon:'comment', text:'message'})}
-						${this.renderOptions({glyphicon:'earphone', text:'call'})}				
-						${this.renderOptions({glyphicon:'facetime-video', text:'video'})}	
-						${this.renderOptions({glyphicon:'envelope', text:'mail'})}
+						${this.renderOptions({ glyphicon: "comment", text: "message" })}
+						${this.renderOptions({ glyphicon: "earphone", text: "call" })}				
+						${this.renderOptions({ glyphicon: "facetime-video", text: "video" })}	
+						${this.renderOptions({ glyphicon: "envelope", text: "mail" })}
 					</div>
 					<div class="tel-number">
 						<h3>mobile</h3>
@@ -64,7 +58,5 @@ class User {
 					</div>
 				</div>
 			</main>`;
-
-    //this.setEvents();
-  }
+	}
 }

@@ -3,59 +3,49 @@
 //- изменять backgroundColor
 
 class EditContact {
-  constructor(globalState){
-    this.state = globalState; //стал равен this.state-у со страницы App.js
-  	this.phoneNumber = '+38 (063) 733 44 55';
-  }
+	constructor(globalState) {
+		this.state = globalState; //стал равен this.state-у со страницы App.js
+		this.phoneNumber = "+38 (063) 733 44 55";
+	}
 
-  renderInfo(value) {
-
-  	return `<div class="edit-field">
+	renderInfo(value) {
+		return `<div class="edit-field">
 				<button href="#" class="add-btn"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 					<input type="text" placeholder="${value}"></input>
 				</button>
 			</div>`;
-  }
+	}
 
-  renderLink(options) {
-    let {href, glyphicon, text, active} = options;
-    let activeClass = active ? 'active' : '';
+	buttonsHandler() {
+		let buttonsParent = document.querySelector("main");
+		buttonsParent.addEventListener("click", this.clickHandler.bind(this));
+	}
 
-    return `<a href="${href}.html" class="tab ${activeClass}">
-              <span class="glyphicon glyphicon-${glyphicon}" aria-hidden="true"></span>
-              <span class = "tab-text">${text}</span>
-            </a> `
-  }
+	clickHandler(e) {
+		let target = e && e.target;
+		if (!target) return;
 
-  buttonsHandler(){
-  	let buttonsParent = document.querySelector('main');
-  	buttonsParent.addEventListener('click', this.clickHandler.bind(this));
-  }
+		let active =
+			e &&
+			e.target &&
+			(e.target.closest("button") ||
+				e.target.classList.contains("add-btn"));
+		if (active == false) return;
 
-  clickHandler(e) {
+		let input = active.querySelector("input");
+		input.style.backgroundColor = "lightgreen";
 
-  	let target = e && e.target;
-  	if (!target) return;
+		input.addEventListener("blur", () => {
+			input.removeAttribute("style");
+		});
+	}
 
-  	let active = e && e.target && (e.target.closest('button') || e.target.classList.contains('add-btn'));
- 	if (active == false) return;
+	setHandlers() {
+		this.buttonsHandler();
+	}
 
- 	let input = active.querySelector('input');
- 	input.style.backgroundColor = 'lightgreen';
-
- 	input.addEventListener('blur', () => {
- 		input.removeAttribute('style');
- 	})
-
-  }
-
-
-  setEvents(){
-  	this.buttonsHandler();
-  }
-
-  render() {
-  	return `<header class="header">
+	render() {
+		return `<header class="header">
 			<div class="container top-radius">
 				<nav class="user-top-line">
 					<a href="user.html">Cansel</a>
@@ -69,9 +59,9 @@ class EditContact {
 				<div class="edit-main-info">
 					<div class="edit-foto"><img src="images/user-face-mini.png" alt="#" class=" user-img img-circle center-block"></div>
 					<div class="main-info-holder">
-						${this.renderInfo('First Name')}
-						${this.renderInfo('Last Name')}
-						${this.renderInfo('Company')}
+						${this.renderInfo("First Name")}
+						${this.renderInfo("Last Name")}
+						${this.renderInfo("Company")}
 					</div>
 				</div>
 				<div class="scroll-holder">
@@ -82,20 +72,18 @@ class EditContact {
 								<span>${this.phoneNumber}</span>
 							</button>
 						</div>
-						${this.renderInfo('add home phone')}
-						${this.renderInfo('add email')}
-						${this.renderInfo('add address')}
-						${this.renderInfo('add birthday')}
-						${this.renderInfo('add social profile')}
-						${this.renderInfo('add field')}
+						${this.renderInfo("add home phone")}
+						${this.renderInfo("add email")}
+						${this.renderInfo("add address")}
+						${this.renderInfo("add birthday")}
+						${this.renderInfo("add social profile")}
+						${this.renderInfo("add field")}
 						<div class="edit-field">
 							<button href="#" class="delete-contact">delete contact</button>
 						</div>
 					</div>
 				</div>
 			</div>
-		</main>`
-
-    /*this.setEvents();*/
-  }
+		</main>`;
+	}
 }
