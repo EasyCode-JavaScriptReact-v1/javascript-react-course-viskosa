@@ -2,7 +2,7 @@ class App {
 	constructor() {
 		this.state = {
 			//равен ссылке, которая ведет на объект
-			people: [
+			/*people: [
 				{
 					name: "Иван",
 					lastName: "Петров",
@@ -83,7 +83,7 @@ class App {
 					lastName: "Кривенко",
 					email: "ViktorKriv@ec.ua"
 				}
-			],
+			],*/
 			activePage: "contacts",
  
 		};
@@ -94,7 +94,8 @@ class App {
 			keypad: new KeypadPage(this.state),
 			editcontact: new EditContact(this.state),
 			user: new User(this.state),
-			router: new Router(this.state)
+			router: new Router(this.state),
+			//api: new Api(this.state)
 		};
 
 		this.pages.router.initializeRouter();
@@ -117,21 +118,24 @@ class App {
     }*/
 
 
-	renderNewPage() {
+/*	renderNewPage() {
 		this.appDOMNode.innerHTML = this.pages[this.state.activePage].render();
 		this.pages[this.state.activePage].setHandlers();
-	}
+	}*/
 
 	render() {
 		const { activePage } = this.state;
 		//const activePage = this.state.activePage; 	// то же самое
-
 		// this.updateView();
 		this.appDOMNode.innerHTML = this.pages[activePage].render(); // и отрендерь ту страничку,
-		this.pages[this.state.activePage].setHandlers();
-		// которая сейчас указана как activePage в this.state
+		this.pages[this.state.activePage].setHandlers();// которая сейчас указана как activePage в this.state
+	}
+
+	static initialize() {
+		return new App().render();
 	}
 }
 
-const app = new App();
-app.render();
+/*const app = new App();
+app.render();*/
+App.initialize();

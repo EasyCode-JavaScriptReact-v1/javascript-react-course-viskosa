@@ -18,7 +18,7 @@ class ContactsPage {
 
     let pattern = `<tbody>
                       ${tableBody}
-                    </tbody>`;
+                   </tbody>`;
 
     let parent = document.querySelector("table");
     let shouldBeReplaced = document.querySelector("tbody");
@@ -139,9 +139,23 @@ class ContactsPage {
   setHandlers() {
     this.sortColumnsHandler();
     this.searchUserHandler();
+/*    window.addEventListener('load', () => {
+      getPhoneUsersAPI.getAllUsers((users) => {
+        console.log('USERS from contacts', users);
+        this.people = users;
+      });// из api
+    })*/
   }
 
   render(users) {
+    window.addEventListener('load', () => {
+      getPhoneUsersAPI.getAllUsers((users) => {
+        console.log('USERS from contacts', users);
+        this.people = users;
+        
+      });// из api
+    })
+
     return `
       <header class="header">
         <div class="container top-radius">
