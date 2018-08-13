@@ -160,63 +160,87 @@ fetch('/users', {
 })
 
 //---------callback-hell можно переписать на fetch:-----------------
-
+// тут выводим только одного юзера с id = 1:
 let url = `https://jsonplaceholder.typicode.com/users/`;
 const users = [1,2,3];
 
 fetch(url + 1)
 	.then(user => {
-		return response.json();
+		return user.json();
 	})
 	.then(userJson => console.log(userJson));
 
+
 //-----------------------------------------------------------------
+// вывести троих пользователей последовательно
+
+/*const usersPromise = users.map(user => {
+	return fetch(url + user)
+			.then(response => response.json())
+			.then(userJson => console.log('userJson.name', userJson.name, userJson.id));//опять возвращает хаотично
+})*/
+
+
 const usersPromise = users.map(user => {
-	return fetch(url + user).then(response => response.json());
+	return fetch(url + user)
+			.then(response => response.json()) // тут у нас просто 3 запроса и 3 ответа, их нужно обработать
 })
 
-Promise.all(usersPromise).then(allUsers => {
+console.log(usersPromise); // вернет массив из трех промисов
+
+//Promise.all возвращает еще один промис, но уже с готовыми данными, принимает массив промисов
+// означает, что когда все промисы готовы, что-то сделай
+// это ПЕРВЫЙ способ, как работать с несколькими промисами
+Promise.all(usersPromise).then(allUsers => { //
 	allUsers.forEach(user => {
-		console.log(user.name);
+		console.log(user.name, user.id);
 	})
 });
-console.log(usersPromise);
 
-const getUser = async () => {
-//	try {
-		const data = await fetch(url + 1);
+//-----ВТОРОЙ способ как работать с несколькими промисами- async await---------------
+// но нужно оборачивать в try catch
+const getUser = async () => {	// async означает, что внутри этой ф-ции будет выполняться асинхронный код
+	try {
+		const data = await fetch(url + 1); // await ждет, пока ф-ция закончится, и в const data присвоит рез-т ее выполнения
 		const user = await data.json();
 
 		console.log(user)
-/*	} catch {(e => {
-		console.log(e)
-	})*/
-
+	} catch (e) {
+		console.log(e) }
 }
 
 getUser();
-//--------------------------------
+
+//---та же функция на промисах----------------------------
+const getUser2 = () => {
+	return fetch( url + 1 )
+		.then(data => data.json())
+		.then(user => console.log(user))
+}
+
+getUser2();
+
+
+
+//---------зарегать юзера-----------------------
 let urlcode = `http://easycode-js.herokuapp.com/pnv/users`;
+
+const newUser = {
+		fullName: 'Hubot dfbgfg',
+		email: 'hubot@gmail.com'
+	};
+
 fetch(urlcode, {
 	method: 'POST',
 	headers: {
-		'Content-Type': 'application/json'
-	},
-	body: JSON.stringify({
-		fullName: 'Hubot dfbgfg',
-		email: 'hubot@gmail.com'
-	})
+				'Content-Type': 'application/json'
+			 },
+	body: JSON.stringify(newUser)
 })
-	.then(response => {
+/*	.then(response => {				// then тут не нужен
 		return response.json();
 	})
-	.then(user1 => console.log(user1))
-
-fetch(urlcode)
-.then(response => {
-		return response.json();
-	})
-	.then(user1 => console.log(user1))
+	.then(user1 => console.log(user1));*/
 
 
 
