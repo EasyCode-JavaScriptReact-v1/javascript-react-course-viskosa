@@ -20,37 +20,17 @@ add-user
 // доступ к этому сервису должен быть в каждом вашем классе
 // url - должен быть константа, т.к url у вас изменяться не будет.cons
 
-/*class Api {
-	constructor(globalState){
-		this.state = globalState;
-	}
 
-	getAllUsers() {
-		const url = `http://easycode-js.herokuapp.com/pnv/users`
-		const xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = () => {
-			if (xhr.readyState === XMLHttpRequest.DONE){
-				console.log(xhr.responseText);
-				this.state.people = JSON.parse(xhr.responseText);
-			}
-		}
-		xhr.open('GET', url, true);
-		xhr.send();
-	}
-}*/
+// все запросы к серверу вот здесь
 
+class Api {
+  constructor(url) {
+    this.url = url;
+  }
 
-const getPhoneUsersAPI = {
-	getAllUsers(callback) {
-		const url = `http://easycode-js.herokuapp.com/pnv/users`
-		const xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = () => {
-			if (xhr.readyState === XMLHttpRequest.DONE){
-				let users = (JSON.parse(xhr.responseText));
-				callback(users);
-			}
-		}
-		xhr.open('GET', url, true);
-		xhr.send();
-	}
+  requestUsers() {
+    return fetch(this.url).then(data => data.json());
+  }
 }
+//const url = 'https://google.com';
+//const api = new Api(url + 'user');

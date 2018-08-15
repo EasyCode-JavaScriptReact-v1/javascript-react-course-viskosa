@@ -13,7 +13,7 @@ class ContactsPage {
     this.tableCaptions = ["Name", "Last name", "Email"];
   }
 
-  reRenderTable(arr) {
+  reRenderTable(arr) { // сделать, чтобы это был один метод рендера и лежал он в app.js
     let tableBody = this.createTableBodyRow(arr);
 
     let pattern = `<tbody>
@@ -46,9 +46,10 @@ class ContactsPage {
 
     return arr
       .map(item => {
+        const [name, surname] = item.fullName.split(' ')
         return `<tr>
-                <td>${item.name}</td>
-                <td>${item.lastName}</td>
+                <td>${name}</td>
+                <td>${surname}</td>
                 <td>${item.email}</td>
               </tr>`;
       })
@@ -62,11 +63,14 @@ class ContactsPage {
 
   sortColumns() {
     let target = event.target;
-
+    console.log(target)
     this.tableCaptions.forEach(item => {
       if (target.textContent == item) {
+        console.log(true)
         item = this.makeCamelCase(item);
+        console.log(item)
         let sorted = this.sortUsers(item);
+        console.log(sorted)
         this.reRenderTable(sorted);
       }
     });
@@ -96,6 +100,7 @@ class ContactsPage {
   }
 
   sortUsers(str) {
+    console.log(str)//тут опять нужно делить фуллнейм - вынести дележ этот в отдельную ф-цию?
     function compare(a, b) {
       if (isNaN(a[str])) {
         if (a[str] > b[str]) {
@@ -122,10 +127,11 @@ class ContactsPage {
 
   filterUser() {
     let value = this.searchField.value.toLowerCase();
-
+    
     let filteredUsers = this.state.people.filter(item => {
+    let name = item.fullName.split(' ')[0];
 
-      if (item.name.toLowerCase().includes(value)) {
+      if (name.toLowerCase().includes(value)) {
         return item;
       }
 
@@ -148,13 +154,13 @@ class ContactsPage {
   }
 
   render(users) {
-    window.addEventListener('load', () => {
+/*    window.addEventListener('load', () => {
       getPhoneUsersAPI.getAllUsers((users) => {
         console.log('USERS from contacts', users);
         this.people = users;
         
       });// из api
-    })
+    })*/
 
     return `
       <header class="header">

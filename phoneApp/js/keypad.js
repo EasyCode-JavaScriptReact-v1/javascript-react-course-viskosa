@@ -24,14 +24,15 @@ class KeypadPage {
   }
 
   buttonsHandler() {
-    let buttonsParent = document.querySelector("main");
+    let buttonsParent = document.querySelector("main"); // please you const keyword instead of let
     let placeToInsertNumbers = document.querySelector(".numbers");
 
     buttonsParent.addEventListener(
       "click",
       this.clickHandler.bind(this, placeToInsertNumbers)
     );
-    window.addEventListener(
+    window.addEventListener(    //are ever remove such listener?
+                                // for example when-even you changing a page
       "keypress",
       this.keyHandler.bind(this, placeToInsertNumbers)
     );

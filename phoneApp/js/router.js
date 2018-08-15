@@ -1,13 +1,12 @@
 class Router {
-//	constructor(activePage) {
-//		this.activePage = activePage;
+	//constructor(activePage) {
+	//	this.activePage = activePage;
 	constructor(globalState) {
 		this.state = globalState;
 	}
 
 	initializeRouter() {
 		const mountNode = document.getElementById("mountNode");
-		//console.log(mountNode);
 		mountNode.innerHTML = `
         <div id="app"></div>
         <footer class="footer">
@@ -48,11 +47,9 @@ class Router {
          </footer>`;
 
 		this.linksParent = document.querySelector(".main-nav");
-		//this.state.appDOMNode = document.getElementById("app"); // сюда будем делать рендер всех страниц
-		// и это не будет затрагивать футер и его события
 	}
 
-	switchRouter() {
+	definePage(callback) {	//function switchRounter, should only change the router and don't make any checks and probably has a minimal of conditionals
 		this.linksParent.addEventListener("click", e => {
 			e.preventDefault();
 			//let target = e && e.target;
@@ -61,11 +58,15 @@ class Router {
 				e.target &&
 				(e.target.closest("a") || e.target.classList.contains("tab")); //You can add additional attributes
 			//to every link and indicate "user clicked on link" that way. on real word usage probably we should be always 100% be sure about our target
-			if (target == false) return;
+			//I'm pretty sure you don't need such event delegation because of your event working on a small area of responsibilities.
+			if (target == false) { 
+				return;
+			}
 
-			//console.log(target);
+			if (target.classList.contains("active")) {
+				return;
+			}
 
-			if (target.classList.contains("active")) return;
 			if (target.classList.contains("tab")) {
 				let active = document.querySelector(".active"); //So, for example, you could the same solution as we did with a slider in class.
 
@@ -73,15 +74,19 @@ class Router {
 				target.classList.add("active");
 
 				let href = target.getAttribute("href");
-				//console.log(href);
-				this.state.activePage = href;
-				//console.log(this.activePage);
-				//this.state.setState(href);
-				//this.renderNewPage();
-				console.log(this.state.activePage)
+
+				this.switchRouter(href, callback);
+				//console.log('active page:', this.activePage)
 			}
 			return;
 		});
+	}
+
+	switchRouter(href, callback) {
+		this.state.activePage = href;
+		callback(href);
+
+		//window.history.pushState()
 	}
 
 	renderLink(options) {
