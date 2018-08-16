@@ -25,21 +25,12 @@ class EditContact {
 		let target = e && e.target;
 		if (!target) return;
 
-		let active =
-			e &&
-			e.target &&
-			(e.target.closest("button") ||
-				e.target.classList.contains("add-btn"));// what if another dev would change that className at button - javascript would break ?
-														//We shouldn't rely on classsNames
-		if (active == false) {
-			return;
+		if (target.tagName === 'INPUT') {
+			target.classList.add('active-input');
 		}
 
-		let input = active.querySelector("input");
-		input.style.backgroundColor = "lightgreen";//probably you can make it something like with CSS :focus { ...} JavaScript not really required there
-
-		input.addEventListener("blur", () => {
-			input.removeAttribute("style");
+		target.addEventListener("blur", () => {
+			target.classList.remove('active-input');
 		});
 	}
 

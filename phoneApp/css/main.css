@@ -333,3 +333,7 @@ input {
   margin: 0 auto;
   font-weight: bold;
 }
+
+.active-input {
+  background: lightgreen;
+}

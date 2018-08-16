@@ -13,7 +13,12 @@ class ContactsPage {
     this.tableCaptions = ["Name", "Last name", "Email"];
   }
 
-  reRenderTable(arr) { // сделать, чтобы это был один метод рендера и лежал он в app.js
+  /*separateFullName(fullName) {
+    return [name, surname] = fullName.split(' ');
+  }*/
+
+  reRenderTable(arr) {
+    // сделать, чтобы это был один метод рендера и лежал он в app.js
     let tableBody = this.createTableBodyRow(arr);
 
     let pattern = `<tbody>
@@ -46,7 +51,8 @@ class ContactsPage {
 
     return arr
       .map(item => {
-        const [name, surname] = item.fullName.split(' ')
+        const [name, surname] = item.fullName.split(" "); //////////////////////////////
+
         return `<tr>
                 <td>${name}</td>
                 <td>${surname}</td>
@@ -63,14 +69,13 @@ class ContactsPage {
 
   sortColumns() {
     let target = event.target;
-    console.log(target)
+
     this.tableCaptions.forEach(item => {
       if (target.textContent == item) {
-        console.log(true)
         item = this.makeCamelCase(item);
-        console.log(item)
+
         let sorted = this.sortUsers(item);
-        console.log(sorted)
+        console.log(sorted);
         this.reRenderTable(sorted);
       }
     });
@@ -100,7 +105,7 @@ class ContactsPage {
   }
 
   sortUsers(str) {
-    console.log(str)//тут опять нужно делить фуллнейм - вынести дележ этот в отдельную ф-цию?
+    console.log(str); //тут опять нужно делить фуллнейм - вынести дележ этот в отдельную ф-цию?
     function compare(a, b) {
       if (isNaN(a[str])) {
         if (a[str] > b[str]) {
@@ -127,9 +132,9 @@ class ContactsPage {
 
   filterUser() {
     let value = this.searchField.value.toLowerCase();
-    
+
     let filteredUsers = this.state.people.filter(item => {
-    let name = item.fullName.split(' ')[0];
+      let name = item.fullName.split(" ")[0];
 
       if (name.toLowerCase().includes(value)) {
         return item;
@@ -142,26 +147,74 @@ class ContactsPage {
     this.reRenderTable(filteredUsers);
   }
 
+  showUserCardHandler() {
+    let parent = document.querySelector("tbody");
+    parent.addEventListener("click", this.showUserCard.bind(this));
+  }
+
+  showUserCard(e) {
+    let target = e && e.target;
+
+    if (target.tagName === "TD") {
+      let targetValue = target.textContent; //Ivan
+      console.log(targetValue)
+      let foundUsers = [];
+
+      this.state.people.forEach(item => {
+
+/*        if (targetValue.includes('@')) {
+          console.log(123)
+          foundUsers.push(item);
+          return;
+        }
+        //-------------------
+        let currentTarget = target;
+        let tr = currentTarget.closest('tr');
+        console.log(currentTarget, tr);
+        [...tr.children].forEach((td) => {
+            if (td.textContent.includes('@')) {
+              console.log(78)
+              foundUsers.push(item);
+              return;
+            }
+        })*/
+//-----------------------------------------------------нихрена неправильно работает!!!!!!!!!!!!!!!!!!!!!!
+        for (let key in item) {
+          if (item[key] == targetValue && targetValue.includes('@')) {
+            foundUsers.push(item);
+          }; //end of if
+
+          if (key === "fullName" && item[key].includes(targetValue)) {
+            let currentTarget = target;
+
+            let tr = currentTarget.closest('tr');
+
+            //[...tr.children].forEach((td) => {
+            for (let i = 0; i < tr.children; i++) {
+              if (tr.children[i].includes('@')) {
+                  foundUsers.push(item);
+                  return;
+              }          
+            }
+
+
+            //});
+
+          }; //end of if
+        } //end of for
+      }); //end of forEach
+
+      console.log(foundUsers);
+    }
+  }
+
   setHandlers() {
     this.sortColumnsHandler();
     this.searchUserHandler();
-/*    window.addEventListener('load', () => {
-      getPhoneUsersAPI.getAllUsers((users) => {
-        console.log('USERS from contacts', users);
-        this.people = users;
-      });// из api
-    })*/
+    this.showUserCardHandler();
   }
 
   render(users) {
-/*    window.addEventListener('load', () => {
-      getPhoneUsersAPI.getAllUsers((users) => {
-        console.log('USERS from contacts', users);
-        this.people = users;
-        
-      });// из api
-    })*/
-
     return `
       <header class="header">
         <div class="container top-radius">

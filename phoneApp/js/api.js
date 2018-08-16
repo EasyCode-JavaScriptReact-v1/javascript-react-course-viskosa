@@ -1,10 +1,10 @@
 /*
-TASK 2
+TASK 2 -------DONE-------------------
 phone-app. Первая страница.
 Загружайте пользователей с сервера при загрузке странице.
 */
 
-/*
+/*-----------DONE------------------------
 // contentEditable
 Сделайте, чтобы на странице add-user.html пользователь
 добавлялся на сервер.
@@ -31,6 +31,21 @@ class Api {
   requestUsers() {
     return fetch(this.url).then(data => data.json());
   }
+
+  postUser(arr) {
+  	const [fullName, email, phone] = arr;
+  	console.log(arr)
+  	return fetch(this.url, {
+  		method: 'POST',
+  		headers: {
+  			'Content-type': 'application/json'
+  		},
+  		body: JSON.stringify({
+  			fullName: fullName,
+  			email: email,
+  			phone: phone
+  		})
+  	})
+  }
+
 }
-//const url = 'https://google.com';
-//const api = new Api(url + 'user');
