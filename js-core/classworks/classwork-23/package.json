@@ -1,0 +1,24 @@
+{
+  "name": "my_package",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "webpack": "./node_modules/.bin/webpack-cli"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EasyCode-JavaScriptReact-v1/javascript-react-course-viskosa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EasyCode-JavaScriptReact-v1/javascript-react-course-viskosa/issues"
+  },
+  "homepage": "https://github.com/EasyCode-JavaScriptReact-v1/javascript-react-course-viskosa#readme",
+  "devDependencies": {
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
+  }
+}
