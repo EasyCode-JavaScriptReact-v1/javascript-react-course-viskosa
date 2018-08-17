@@ -1,21 +1,17 @@
-//index.html/contacts.html - в поле search при вводе буквы,
-//добавить поиск по имени если имя включает хотя бы одну эту букву.
-//после ввода каждого символа, фильтровать отображаемых пользователей.
-//При удалении всех символов отобразить снова весь список
+//index.html/contacts.html - в поле search при вводе буквы, +
+//добавить поиск по имени если имя включает хотя бы одну эту букву. +
+//после ввода каждого символа, фильтровать отображаемых пользователей.  +
+//При удалении всех символов отобразить снова весь список +
 
 "use strict";
 
 class ContactsPage {
   constructor(globalState) {
-    this.state = globalState; //стал равен this.state-у со страницы App.js
+    this.state = globalState;
 
     this.title = "Contacts";
     this.tableCaptions = ["Name", "Last name", "Email"];
   }
-
-  /*separateFullName(fullName) {
-    return [name, surname] = fullName.split(' ');
-  }*/
 
   reRenderTable(arr) {
     // сделать, чтобы это был один метод рендера и лежал он в app.js
@@ -51,9 +47,9 @@ class ContactsPage {
 
     return arr
       .map(item => {
-        const [name, surname] = item.fullName.split(" "); //////////////////////////////
+        const [name, surname] = item.fullName.split(" ");
 
-        return `<tr>
+        return `<tr data-id="${item._id}">
                 <td>${name}</td>
                 <td>${surname}</td>
                 <td>${item.email}</td>
@@ -74,11 +70,52 @@ class ContactsPage {
       if (target.textContent == item) {
         item = this.makeCamelCase(item);
 
-        let sorted = this.sortUsers(item);
+        let index;
+
+        if (item == "name") {
+          item = "fullName";
+          index = 0;
+        }
+        if (item == "lastName") {
+          item = "fullName";
+          index = 1;
+        }
+
+        let sorted = this.sortUsers(item, index);
         console.log(sorted);
         this.reRenderTable(sorted);
       }
     });
+  }
+
+  sortUsers(str, index) {
+    function compare(a, b) {
+      if (isNaN(a[str]) && index) {
+        if (a[str].split(" ")[index] > b[str].split(" ")[index]) {
+          return 1;
+        }
+        if (a[str].split(" ")[index] < b[str].split(" ")[index]) {
+          return -1;
+        }
+        if (a[str].split(" ")[index] == b[str].split(" ")[index]) {
+          return 0;
+        }
+      } else if (isNaN(a[str]) && !index) {
+        if (a[str] > b[str]) {
+          return 1;
+        }
+        if (a[str] < b[str]) {
+          return -1;
+        }
+        if (a[str] == b[str]) {
+          return 0;
+        }
+      } else {
+        return a[str] - b[str];
+      }
+    }
+    //console.log(this.state.people.sort(compare))
+    return this.state.people.sort(compare);
   }
 
   makeCamelCase(str) {
@@ -104,27 +141,6 @@ class ContactsPage {
     return str;
   }
 
-  sortUsers(str) {
-    console.log(str); //тут опять нужно делить фуллнейм - вынести дележ этот в отдельную ф-цию?
-    function compare(a, b) {
-      if (isNaN(a[str])) {
-        if (a[str] > b[str]) {
-          return 1;
-        }
-        if (a[str] < b[str]) {
-          return -1;
-        }
-        if (a[str] == b[str]) {
-          return 0;
-        }
-      } else {
-        return a[str] - b[str];
-      }
-    }
-    //console.log(this.state.people.sort(compare))
-    return this.state.people.sort(compare);
-  }
-
   searchUserHandler() {
     this.searchField = document.querySelector("#search");
     this.searchField.addEventListener("input", this.filterUser.bind(this));
@@ -147,71 +163,30 @@ class ContactsPage {
     this.reRenderTable(filteredUsers);
   }
 
-  showUserCardHandler() {
+  selectUserHandler() {
     let parent = document.querySelector("tbody");
-    parent.addEventListener("click", this.showUserCard.bind(this));
+    parent.addEventListener("click", this.selectUser.bind(this));
   }
 
-  showUserCard(e) {
+  selectUser(e) {
     let target = e && e.target;
 
     if (target.tagName === "TD") {
-      let targetValue = target.textContent; //Ivan
-      console.log(targetValue)
-      let foundUsers = [];
-
+      let row = target.closest("tr");
+      let id = row.dataset.id;
       this.state.people.forEach(item => {
-
-/*        if (targetValue.includes('@')) {
-          console.log(123)
-          foundUsers.push(item);
-          return;
+        if (item._id == id) {
+          this.state.selectedUser = item;
         }
-        //-------------------
-        let currentTarget = target;
-        let tr = currentTarget.closest('tr');
-        console.log(currentTarget, tr);
-        [...tr.children].forEach((td) => {
-            if (td.textContent.includes('@')) {
-              console.log(78)
-              foundUsers.push(item);
-              return;
-            }
-        })*/
-//-----------------------------------------------------нихрена неправильно работает!!!!!!!!!!!!!!!!!!!!!!
-        for (let key in item) {
-          if (item[key] == targetValue && targetValue.includes('@')) {
-            foundUsers.push(item);
-          }; //end of if
-
-          if (key === "fullName" && item[key].includes(targetValue)) {
-            let currentTarget = target;
-
-            let tr = currentTarget.closest('tr');
-
-            //[...tr.children].forEach((td) => {
-            for (let i = 0; i < tr.children; i++) {
-              if (tr.children[i].includes('@')) {
-                  foundUsers.push(item);
-                  return;
-              }          
-            }
-
-
-            //});
-
-          }; //end of if
-        } //end of for
-      }); //end of forEach
-
-      console.log(foundUsers);
+      });
+      console.log(this.state.selectedUser);
     }
   }
 
   setHandlers() {
     this.sortColumnsHandler();
     this.searchUserHandler();
-    this.showUserCardHandler();
+    this.selectUserHandler();
   }
 
   render(users) {

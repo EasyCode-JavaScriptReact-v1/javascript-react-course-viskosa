@@ -1,6 +1,4 @@
 class Router {
-	//constructor(activePage) {
-	//	this.activePage = activePage;
 	constructor(globalState) {
 		this.state = globalState;
 	}
@@ -49,19 +47,11 @@ class Router {
 		this.linksParent = document.querySelector(".main-nav");
 	}
 
-	definePage(callback) {	//function switchRounter, should only change the router and don't make any checks and probably has a minimal of conditionals
+	definePage(callback) {
 		this.linksParent.addEventListener("click", e => {
 			e.preventDefault();
-			//let target = e && e.target;
-			let target =
-				e &&
-				e.target &&
-				(e.target.closest("a") || e.target.classList.contains("tab")); //You can add additional attributes
-			//to every link and indicate "user clicked on link" that way. on real word usage probably we should be always 100% be sure about our target
-			//I'm pretty sure you don't need such event delegation because of your event working on a small area of responsibilities.
-			if (target == false) { 
-				return;
-			}
+
+			let target = e && e.target && e.target.closest("a[data-attr]");
 
 			if (target.classList.contains("active")) {
 				return;
@@ -93,10 +83,9 @@ class Router {
 		let { href, glyphicon, text, active } = options;
 		let activeClass = active ? "active" : "";
 
-		return `<a href="${href}" class="tab ${activeClass}">
+		return `<a href="${href}" class="tab ${activeClass}" data-attr="tab">
 		          <span class="glyphicon glyphicon-${glyphicon}" aria-hidden="true"></span>
-		          <span class = "tab-text">${text}</span>
+		          <span class = "tab-text">${text} </span>
 		        </a> `;
 	}
-
 }

@@ -1,12 +1,6 @@
-//add-user при клике:
-//index.html/contacts.html - в поле search при вводе буквы,
-//добавить поиск по имени если имя включает хотя бы одну эту букву.
-//после ввода каждого символа, фильтровать отображаемых пользователей.
-//При удалении всех символов отобразить снова весь список
-
 class AddUser {
 	constructor(globalState) {
-		this.state = globalState; //стал равен this.state-у со страницы App.js
+		this.state = globalState;
 	}
 
 	buttonsHandler() {
@@ -18,52 +12,50 @@ class AddUser {
 		let target = e && e.target;
 		if (!target) return;
 
-		if (target.tagName === 'INPUT') {
-			target.classList.add('active-input');
+		if (target.tagName === "INPUT") {
+			target.classList.add("active-input");
 		}
 
 		target.addEventListener("blur", () => {
-			target.classList.remove('active-input');
+			target.classList.remove("active-input");
 		});
 	}
 
 	addUser() {
+		const { name, lastName, email, phone } = this.form.elements; // name, lastName, email, phone - атрибуты name у элементов формы
 
-		const {name, lastName, email, phone} = this.form.elements;  // name, lastName, email, phone - атрибуты name у элементов формы
-
-		if (!name.value) { 	
-			alert('заполните name');
+		if (!name.value) {
+			alert("заполните name");
 			return;
-		}; 
-		if (!lastName.value) { 	
-			alert('заполните Last Name');
+		}
+		if (!lastName.value) {
+			alert("заполните Last Name");
 			return;
-		}; 
-		if (!email.value) { 	
-			alert('заполните email');
+		}
+		if (!email.value) {
+			alert("заполните email");
 			return;
-		}; 
-		if (!phone.value) {	
-			alert('заполните phone');
+		}
+		if (!phone.value) {
+			alert("заполните phone");
 			return;
-		};	
+		}
 
 		let fullName = `${name.value} ${lastName.value}`;
 
 		this.state.api.postUser([fullName, email.value, phone.value]);
 
 		this.clearFields();
-
 	}
 
 	clearFields() {
 		let myFormElements = this.form.elements;
 
-		[...myFormElements].forEach((item) => {
-			if (item.tagName === 'INPUT') {
-				item.value = '';
+		[...myFormElements].forEach(item => {
+			if (item.tagName === "INPUT") {
+				item.value = "";
 			}
-		})
+		});
 	}
 
 	renderInfo(options) {
@@ -80,11 +72,14 @@ class AddUser {
 		this.addButton = document.querySelector(".done-btn");
 		this.deleteButton = document.querySelector(".delete-contact");
 		this.form = document.forms[0];
-		this.form.addEventListener('submit', event => {
+		this.form.addEventListener("submit", event => {
 			event.preventDefault();
-		})
-		this.addButton.addEventListener('click', this.addUser.bind(this));
-		this.deleteButton.addEventListener('click', this.clearFields.bind(this));
+		});
+		this.addButton.addEventListener("click", this.addUser.bind(this));
+		this.deleteButton.addEventListener(
+			"click",
+			this.clearFields.bind(this)
+		);
 	}
 
 	render() {
@@ -108,20 +103,20 @@ class AddUser {
 							</button>
 						</div>
 						<div class="main-info-holder">
-							${this.renderInfo({ placeholder:"First Name", name:"name"})}
-							${this.renderInfo({ placeholder:"Last Name", name:"lastName"})}
-							${this.renderInfo({ placeholder:"Company", name:"company"})}
+							${this.renderInfo({ placeholder: "First Name", name: "name" })}
+							${this.renderInfo({ placeholder: "Last Name", name: "lastName" })}
+							${this.renderInfo({ placeholder: "Company", name: "company" })}
 						</div>
 					</div>
 					<div class="scroll-holder">
 						<div class="edit-info">
-							${this.renderInfo({ placeholder:"add mobile phone", name:"phone"})}
-							${this.renderInfo({ placeholder:"add home phone", name:"homePhone"})}
-							${this.renderInfo({ placeholder:"add email", name:"email"})}
-							${this.renderInfo({ placeholder:"add address", name:"address"})}
-							${this.renderInfo({ placeholder:"add birthday", name:"birthday"})}
-							${this.renderInfo({ placeholder:"add social profile", name:"profile"})}
-							${this.renderInfo({ placeholder:"add field", name:"field"})}
+							${this.renderInfo({ placeholder: "add mobile phone", name: "phone" })}
+							${this.renderInfo({ placeholder: "add home phone", name: "homePhone" })}
+							${this.renderInfo({ placeholder: "add email", name: "email" })}
+							${this.renderInfo({ placeholder: "add address", name: "address" })}
+							${this.renderInfo({ placeholder: "add birthday", name: "birthday" })}
+							${this.renderInfo({ placeholder: "add social profile", name: "profile" })}
+							${this.renderInfo({ placeholder: "add field", name: "field" })}
 							<div class="edit-field">
 								<button href="#" class="delete-contact">delete contact</button>
 							</div>
