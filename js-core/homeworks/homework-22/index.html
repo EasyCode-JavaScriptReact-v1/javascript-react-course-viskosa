@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>TO DO</title>
+	<style type="text/css">
+		#app {
+			display: flex;
+			flex-direction: column;
+			width: 600px;
+			margin: 50px auto;
+			background-color: cornsilk;
+			border: 1px solid burlywood;
+			padding: 20px;
+		}
+		h1 {
+			box-shadow: 0 0 5px 0 rgba(0,0,0,.2) inset;
+			margin: 0;
+			padding: 20px;
+			text-align: center;
+
+		}
+		ol {
+			padding: 0;
+		} 
+		li {
+			box-shadow: 0 0 5px 0 rgba(0,0,0,.2) inset;
+			list-style-position: inside;
+			padding: 10px;
+			margin-bottom: 1px;
+		}
+		.controls {
+			display: flex;
+			justify-content: space-between;
+		}
+		.controls__input {
+			width: 300px;
+			padding: 5px;
+
+		}
+		.list__item{
+			display: flex;
+			justify-content: space-between;
+			vertical-align: middle;
+		}
+		.completed {
+			text-decoration: line-through;
+		}
+/*		.destroy {
+			position: relative;
+			width: 20px;
+			height: 20px;
+			cursor: pointer;
+
+		}
+ 		.destroy:before {
+	content: 'X';
+	display: none;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 10px;
+}
+.list__item:hover>.destroy:before{
+	display: block;
+} */
+		button {
+			cursor: pointer;
+			background-color: azure;
+			border: 1px solid burlywood;
+			padding: 5px 93px;
+			margin-left: 10px;
+		}
+		.label {
+			flex: 1;
+		}
+		.change,
+		.destroy,
+		.complete {
+			padding: 5px;
+		}
+	</style>
+
+</head>
+<body>
+	<div id="app">
+		<h1>My todo list</h1>
+		<ol class="list"></ol>
+		<div class="controls">
+			<label for="controls__input">
+				<input type="text" name=""
+						class="controls__input"
+						id="controls__input">
+			</label>
+			<button class="controls__add">Add task</button>
+		</div>
+	</div>
+
+<script type="text/javascript" src="model.js"></script>
+<script type="text/javascript" src="view.js"></script>
+<script type="text/javascript" src="controller.js"></script>
+<script type="text/javascript" src="app.js"></script>
+</body>
+</html>
