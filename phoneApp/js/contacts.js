@@ -219,3 +219,5 @@ class ContactsPage {
       </main>`;
   }
 }
+
+export {ContactsPage};

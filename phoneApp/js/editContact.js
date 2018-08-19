@@ -206,3 +206,5 @@ class EditContact {
 		</main>`;
 	}
 }
+
+export {EditContact};

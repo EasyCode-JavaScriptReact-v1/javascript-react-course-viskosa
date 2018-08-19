@@ -106,3 +106,5 @@ class KeypadPage {
     </main>`;
   }
 }
+
+export {KeypadPage};

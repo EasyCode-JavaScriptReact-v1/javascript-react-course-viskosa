@@ -3,7 +3,7 @@ Cделать phone-book
 у которого будет:
 1) Вы заполните пользователей на сервер по адресу с вашими инициалами. +
 2) При загрузке приложения, вы получите пользователей с сервера			+
-3) В приложении будет js - роутер, (при смене страницы перезагрузки не будет)	+-
+3) В приложении будет js - роутер, (при смене страницы перезагрузки не будет)	+
 4) При нажатии на пользователя будет открываться данный пользователь	+
 5) Будет возможность добавить пользователя на сервере заполнив данные в форме (add-contact)	+
 ----------------   ~90 балов
@@ -16,24 +16,18 @@ Cделать phone-book
 в этот инпут можно ввести инициалы easycode студента (2)
 в зависимости от этого будут загружаться разные пользователи
 */
+import {ContactsPage} from './contacts.js';
+import {AddUser} from './addUser.js';
+import {KeypadPage} from './keypad.js';
+import {EditContact} from './editContact.js';
+import {User} from './user.js';
+import {Router} from './router.js';
+import {Api} from './api.js';
 
 class App {
 	constructor() {
 		this.url = `https://easycode-js.herokuapp.com/pnv2/users`;
 		this.state = {
-			//равен ссылке, которая ведет на объект
-			/*			people: [
-				{
-					name: "Кира",
-					lastName: "Воробьева",
-					email: "Kira1990@ec.ua"
-				},
-				{
-					name: "Виктор",
-					lastName: "Кривенко",
-					email: "ViktorKriv@ec.ua"
-				}
-			],*/
 			activePage: "contacts",
 			api: new Api(this.url)
 		};
@@ -52,12 +46,12 @@ class App {
 		this.appDOMNode = document.getElementById("app"); // сюда будем делать рендер всех страниц
 		// и это не будет затрагивать футер и его события
 
-		/*		window.addEventListener('popstate'. event => { // не работает
-			render(event.state);
-		})*/
+		window.addEventListener("popstate", event => {
+			this.updateView(event.state);
+		});
 	}
 
-	render(href) {
+	render() {
 		const { activePage } = this.state;
 
 		if (activePage == "contacts") {
@@ -78,8 +72,11 @@ class App {
 		this.appDOMNode.innerHTML = forHistory; // и отрендерь ту страничку,
 		// которая сейчас указана как activePage в this.state
 		this.pages[activePage].setHandlers(); //и навесь обработчики событий
+		window.history.pushState(forHistory, activePage, activePage); // добавляем в историю ссылку, которая будет наверху
+	}
 
-		//window.history.pushState(forHistory, href, href) // ДОПИСАТЬ!!!
+	updateView(content) {
+		this.appDOMNode.innerHTML = content;
 	}
 
 	static initialize() {

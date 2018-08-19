@@ -51,6 +51,12 @@ class Router {
 		this.linksParent.addEventListener("click", e => {
 			e.preventDefault();
 
+			this.tabState = {
+				activeTab: document.querySelector(".active"),
+			};
+
+			let active = document.querySelector(".active");
+
 			let target = e && e.target && e.target.closest("a[data-attr]");
 
 			if (target.classList.contains("active")) {
@@ -58,15 +64,16 @@ class Router {
 			}
 
 			if (target.classList.contains("tab")) {
-				let active = document.querySelector(".active"); //So, for example, you could the same solution as we did with a slider in class.
+				//let active = document.querySelector(".active"); //So, for example, you could the same solution as we did with a slider in class.
 
-				active.classList.remove("active");
+				this.tabState.activeTab.classList.remove("active");
 				target.classList.add("active");
+				this.tabState.activeTab = target;
 
 				let href = target.getAttribute("href");
 
 				this.switchRouter(href, callback);
-				//console.log('active page:', this.activePage)
+
 			}
 			return;
 		});
@@ -75,8 +82,6 @@ class Router {
 	switchRouter(href, callback) {
 		this.state.activePage = href;
 		callback(href);
-
-		//window.history.pushState()
 	}
 
 	renderLink(options) {
@@ -89,3 +94,5 @@ class Router {
 		        </a> `;
 	}
 }
+
+export {Router};

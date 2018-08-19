@@ -127,3 +127,5 @@ class AddUser {
 		</main>`;
 	}
 }
+
+export {AddUser};

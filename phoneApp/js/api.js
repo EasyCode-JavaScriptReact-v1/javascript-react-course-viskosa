@@ -67,3 +67,5 @@ class Api {
     return fetch(this.url + `/${id}`, { method: "DELETE" });
   }
 }
+
+export {Api};

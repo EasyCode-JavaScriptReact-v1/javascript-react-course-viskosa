@@ -65,3 +65,5 @@ class User {
 			</main>`;
 	}
 }
+
+export {User};
